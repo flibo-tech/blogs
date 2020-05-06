@@ -1,32 +1,74 @@
 <template>
-  <div id="app">
-    <div id="nav">
-      <router-link to="/">Home</router-link> |
-      <router-link to="/about">About</router-link>
-    </div>
-    <router-view />
-  </div>
+  <v-app>
+    <v-app-bar app flat color="white" height="120" class="top-bar">
+      <v-container>
+        <v-row>
+          <v-col>
+            <v-img
+              alt="Vuetify Logo"
+              class="shrink mr-2"
+              contain
+              src="./assets/flibo-logo.svg"
+              transition="scale-transition"
+              width="120"
+            />
+          </v-col>
+          <v-col align="right">
+            <v-btn
+              href="https://play.google.com/store/apps/details?id=com.pivot.flibo"
+              target="_blank"
+              class="f-primary"
+              large
+            >
+              <span class="mr-2">Download App</span>
+            </v-btn>
+          </v-col>
+        </v-row>
+      </v-container>
+
+      <!-- <div class="d-flex align-center">
+        <v-img
+          alt="Vuetify Logo"
+          class="shrink mr-2"
+          contain
+          src="./assets/flibo-logo.svg"
+          transition="scale-transition"
+          width="120"
+        />
+      </div>
+
+      <v-spacer></v-spacer>
+
+      <v-btn
+        href="https://play.google.com/store/apps/details?id=com.pivot.flibo"
+        target="_blank"
+      >
+        <span class="mr-2">Download App</span>
+      </v-btn> -->
+    </v-app-bar>
+
+    <v-content>
+      <router-view />
+    </v-content>
+  </v-app>
 </template>
 
+<script>
+export default {
+  name: "App",
+
+  components: {},
+
+  data: () => ({
+    //
+  })
+};
+</script>
+
 <style lang="scss">
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-}
-
-#nav {
-  padding: 30px;
-
-  a {
-    font-weight: bold;
-    color: #2c3e50;
-
-    &.router-link-exact-active {
-      color: #42b983;
-    }
-  }
+.f-primary {
+  background: linear-gradient(90deg, #8347da, #4256f6) !important;
+  color: #ffffff !important;
+  // background: aquamarine !important;
 }
 </style>
