@@ -5,7 +5,9 @@
   "scripts": {
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
-    "lint": "vue-cli-service lint"
+    "lint": "vue-cli-service lint",
+    "deploy": "aws s3 sync ./dist s3://flibo-blogs && npm run invalidate",
+    "invalidate": "aws cloudfront create-invalidation --distribution-id E37TZJ50VD8KLN --paths /*"
   },
   "dependencies": {
     "core-js": "^3.6.4",
