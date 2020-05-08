@@ -18,7 +18,7 @@
               >
                 <div class="featured-slider-content">
                   <div class="featured">
-                    <span>FEATURED</span>
+                    <span>FEATURED {{country}}</span>
                     <p>{{ slide.title }}</p>
                   </div>
                 </div>
@@ -34,14 +34,14 @@
 </template>
 
 <script>
-// @ is an alias to /src
-// import HelloWorld from "@/components/HelloWorld.vue";
+import axios from "axios";
 
 export default {
   name: "Home",
   components: {},
   data: function() {
     return {
+      country: null,
       featured: [
         {
           title:
@@ -59,6 +59,17 @@ export default {
         }
       ]
     };
+  },
+  created() {
+    var self = this;
+    axios
+        .get('https://ipinfo.io/?token=a354c067e1fef5')
+        .then(function(response) {
+            if ([200].includes(response.status)) {
+              self.country = response.data.country;
+              document.dispatchEvent(new Event("x-app-rendered"));
+            }
+        });
   }
 };
 </script>
