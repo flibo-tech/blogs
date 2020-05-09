@@ -84,7 +84,7 @@ import axios from "axios";
 export default {
   name: "Home",
   components: {
-    ArticleCard
+    ArticleCard,
   },
   data: function() {
     return {
@@ -93,15 +93,14 @@ export default {
       articles: [],
       min_popularity: null,
       fetching_incremental: false,
-      api_host: "https://yzal-dev-app.flibo.ai/"
     };
   },
   created() {
     var self = this;
 
     axios
-      .post(self.api_host + "blogs_contents", {
-        popularity: null
+      .post(self.$store.state.api_host + "blogs_contents", {
+        popularity: null,
       })
       .then(function(response) {
         if (response.status == 200) {
@@ -109,14 +108,6 @@ export default {
           self.articles = response.data.blogs.slice(3);
           self.min_popularity = response.data.min_popularity;
           document.dispatchEvent(new Event("x-app-rendered"));
-        }
-      });
-
-    axios
-      .get("https://ipinfo.io/?token=a354c067e1fef5")
-      .then(function(response) {
-        if ([200].includes(response.status)) {
-          self.country = response.data.country;
         }
       });
   },
@@ -143,8 +134,8 @@ export default {
       ) {
         self.fetching_incremental = true;
         axios
-          .post(self.api_host + "blogs_contents", {
-            popularity: self.min_popularity
+          .post(self.$store.state.api_host + "blogs_contents", {
+            popularity: self.min_popularity,
           })
           .then(function(response) {
             if (response.status == 200) {
@@ -157,8 +148,8 @@ export default {
             self.fetching_incremental = false;
           });
       }
-    }
-  }
+    },
+  },
 };
 </script>
 

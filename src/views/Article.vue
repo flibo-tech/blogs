@@ -4,7 +4,7 @@
       <v-row>
         <v-col>
           <v-img
-            :src="require(`../assets/images/young-sheldon.jpg`)"
+            :src="poster.replace('/w500/', '/w1280/')"
             alt=""
             aspect-ratio="2"
           ></v-img>
@@ -12,19 +12,68 @@
       </v-row>
       <v-row>
         <v-col>
-          <h1>Article Title</h1>
+          <h1>
+            Top {{ similar_contents.length }} awesome
+            {{ is_movie ? "movies" : "shows" }} like {{ title }} that you will
+            enjoy watching
+          </h1>
+
           <p>
-            Lorem ipsum, dolor sit amet consectetur adipisicing elit.
-            Reprehenderit autem vel laudantium aliquid ea tenetur suscipit modi
-            porro! Ipsa sit voluptatem magnam beatae in? Non ipsum at aperiam
-            quidem incidunt.
+            You just finished watching {{ title }} and you can't get over how
+            good this {{ is_movie ? "movie" : "show" }} was. Now you want to
+            watch more of such masterpieces. We have curated a list of similar
+            {{ is_movie ? "movies" : "shows" }} which are created by the likes
+            of
+            <span v-if="main_artists.length == 3"
+              >{{ main_artists[0] }}, {{ main_artists[1] }} and
+              {{ main_artists[2] }}</span
+            >
+            <span v-if="main_artists.length == 2"
+              >{{ main_artists[0] }} and {{ main_artists[1] }}</span
+            >
+            <span v-if="main_artists.length == 1">{{ main_artists[0] }}</span>
+            . Here goes the list -
           </p>
+
           <ol>
-            <li>Anger Management</li>
-            <li>Anger Management</li>
-            <li>Anger Management</li>
-            <li>Anger Management</li>
-            <li>Anger Management</li>
+            <li v-for="(item, index) in similar_contents" :key="index">
+              {{ item.title }}
+            </li>
+          </ol>
+
+          <ol>
+            <li v-for="(item, index) in similar_contents" :key="index">
+              <v-row>
+                <v-col>
+                  <img
+                    :src="item.poster.replace('/w500/', '/w342/')"
+                    :alt="item.title"
+                  />
+                </v-col>
+                <v-col>
+                  <v-row>
+                    <h2>{{ item.title }}</h2>
+                  </v-row>
+
+                  <v-row>
+                    {{ item.summary_text }}
+                  </v-row>
+
+                  <v-row>
+                    You can watch this on
+                    <span
+                      v-for="(streaming_item,
+                      streaming_index) in where_to_watch[
+                        JSON.stringify(item.content_id)
+                      ].streaming_info"
+                      :key="streaming_index"
+                    >
+                      {{ streaming_index + ", " }}
+                    </span>
+                  </v-row>
+                </v-col>
+              </v-row>
+            </li>
           </ol>
         </v-col>
       </v-row>
@@ -33,38 +82,94 @@
 </template>
 
 <script>
+import axios from "axios";
 export default {
   name: "Article",
   data: function() {
     return {
-      article: {
-        title:
-          "Top 10 awesome shows like Young Sheldon that you will enjoy watching",
-        intro:
-          "You just finished watching Young Sheldon and you can’t get over how good this show was. Now you want to watch more of such masterpieces. We have curated a list of similar shows which are created by the likes of Jaffar Mahmood, Iain Armitage and Zoe Perry . Here goes the list -",
-        list: [
-          {
-            id: 1,
-            title: "Movie Title",
-            image: "young-sheldon.jpg",
-            artists: ["Artist 1", "Artist 2"],
-            description:
-              "Lorem ipsum, dolor sit amet consectetur adipisicing elit.",
-            watch: [
-              {
-                netflix: true,
-                url: "netflix-url"
-              },
-              {
-                prime: true,
-                url: "prime-url"
-              }
-            ]
-          }
-        ]
-      }
+      content_name: null,
+      is_movie: false,
+      is_show: false,
+      content_id: null,
+      title: null,
+      poster: null,
+      main_artists: [],
+      release_year: null,
+      similar_contents: [],
+      where_to_watch: {},
+      play_trailer_index: null,
+      play_trailer: false,
     };
-  }
+  },
+  created() {
+    var self = this;
+    this.content_name = this.$route.params.content_name_piece
+      .replace("movies-like-", "")
+      .replace("shows-like-", "");
+    this.is_movie = this.$route.params.content_name_piece.startsWith(
+      "movies-like-"
+    );
+    this.is_show = this.$route.params.content_name_piece.startsWith(
+      "shows-like-"
+    );
+    axios
+      .post(self.$store.state.api_host + "similar_contents_for_blog", {
+        content_name: self.content_name,
+        content_type: self.is_movie ? "movie" : "tv",
+        guest_id: self.$store.state.guest_id,
+      })
+      .then(function(response) {
+        if (response.status == 200) {
+          self.content_id = response.data.content_id;
+          self.title = response.data.title;
+          self.poster = response.data.poster;
+          self.main_artists = response.data.main_artists;
+          self.release_year = response.data.release_year;
+          self.similar_contents = response.data.similar_contents;
+
+          var content_ids = [];
+          var x;
+          for (x in self.similar_contents) {
+            content_ids.push(self.similar_contents[x].content_id);
+          }
+          if (self.$store.state.guest_country != null) {
+            axios
+              .post(
+                self.$store.state.api_host + "where_to_watch_similar_content",
+                {
+                  content_ids: content_ids,
+                  country: self.$store.state.guest_country,
+                }
+              )
+              .then(function(response) {
+                if (response.status == 200) {
+                  self.where_to_watch = response.data;
+                }
+              });
+          } else {
+            setTimeout(
+              axios
+                .post(
+                  self.$store.state.api_host + "where_to_watch_similar_content",
+                  {
+                    content_ids: content_ids,
+                    country: self.$store.state.guest_country || "United States",
+                  }
+                )
+                .then(function(response) {
+                  if (response.status == 200) {
+                    self.where_to_watch = response.data;
+                  }
+                }),
+              500
+            );
+          }
+        }
+      })
+      .catch(function(error) {
+        // console.log(error);
+      });
+  },
 };
 </script>
 
