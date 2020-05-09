@@ -71,4 +71,10 @@ export default {
   color: #ffffff !important;
   // background: aquamarine !important;
 }
+
+@media (min-width: 1904px) {
+  .container {
+    max-width: 1185px !important;
+  }
+}
 </style>

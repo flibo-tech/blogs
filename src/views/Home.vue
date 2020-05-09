@@ -29,6 +29,25 @@
           <!-- == -->
         </v-col>
       </v-row>
+      <!-- == ARTICLES -->
+      <v-row>
+        <v-col>
+          <h2>Articles</h2>
+          <v-row>
+            <v-col v-for="article in articles" :key="article.id">
+              <ArticleCard
+                :title="article.title"
+                :description="article.description"
+                :image="article.image"
+                :url="article.url"
+              />
+            </v-col>
+          </v-row>
+        </v-col>
+      </v-row>
+      <div class="articles-contaier"></div>
+
+      <!--  -->
     </v-container>
   </div>
 </template>
@@ -36,10 +55,13 @@
 <script>
 // @ is an alias to /src
 // import HelloWorld from "@/components/HelloWorld.vue";
+import ArticleCard from "@/components/ArticleCard";
 
 export default {
   name: "Home",
-  components: {},
+  components: {
+    ArticleCard
+  },
   data: function() {
     return {
       featured: [
@@ -56,6 +78,62 @@ export default {
         {
           title: "Panchayat",
           image: "panchayat.jpg"
+        }
+      ],
+      articles: [
+        {
+          id: 1,
+          title:
+            "Top 10 awesome shows like The Office that you will enjoy watching",
+          description:
+            "You just finished watching Young Sheldon and you can’t get over how good this show was. Now you want to watch more of such masterpieces.",
+          image: "young-sheldon.jpg",
+          url: "movies-like-young-sheldon"
+        },
+        {
+          id: 2,
+          title:
+            "Top 10 awesome shows like The Office that you will enjoy watching",
+          description:
+            "You just finished watching Young Sheldon and you can’t get over how good this show was. Now you want to watch more of such masterpieces.",
+          image: "panchayat.jpg",
+          url: "movies-like-young-sheldon"
+        },
+        {
+          id: 3,
+          title:
+            "Top 10 awesome shows like The Office that you will enjoy watching",
+          description:
+            "You just finished watching Young Sheldon and you can’t get over how good this show was. Now you want to watch more of such masterpieces.",
+          image: "the-office.jpg",
+          url: "movies-like-young-sheldon"
+        },
+        {
+          id: 4,
+          title:
+            "Top 10 awesome shows like The Office that you will enjoy watching",
+          description:
+            "You just finished watching Young Sheldon and you can’t get over how good this show was. Now you want to watch more of such masterpieces.",
+          image: "panchayat.jpg",
+          url: "movies-like-young-sheldon"
+        },
+        {
+          id: 5,
+          title:
+            "Top 10 awesome shows like The Office that you will enjoy watching",
+          description:
+            "You just finished watching Young Sheldon and you can’t get over how good this show was. Now you want to watch more of such masterpieces.",
+          image: "young-sheldon.jpg",
+          url: "movies-like-young-sheldon"
+        },
+        {
+          id: 6,
+          title:
+            "Top 10 awesome shows like The Office that you will enjoy watching",
+          description:
+            "You just finished watching Young Sheldon and you can’t get over how good this show was. Now you want to watch more of such masterpieces.",
+          image: "the-office.jpg",
+          url: "movies-like-young-sheldon"
         }
       ]
     };
