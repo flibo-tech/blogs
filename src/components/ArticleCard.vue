@@ -1,11 +1,11 @@
 <template>
   <div>
-    <v-card class="mx-auto" max-width="350">
+    <v-card class="mx-auto" max-width="350" min-width="350">
       <a :href="url"
         ><v-img
           class="white--text align-end"
           height="200px"
-          :src="require(`../assets/images/${image}`)"
+          :src="image"
         >
         </v-img
       ></a>

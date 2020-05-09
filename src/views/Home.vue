@@ -14,12 +14,13 @@
               <v-carousel-item
                 v-for="(slide, i) in featured"
                 :key="i"
-                :src="require(`../assets/images/${slide.image}`)"
+                :src="slide.image.replace('/w500/', '/w1280/')"
+                :to="((slide.type=='movie') ? 'movies' : 'shows')+'-like-'+slide.title.replace(/[^a-z0-9]+/gi,'-').toLowerCase()"
               >
                 <div class="featured-slider-content">
                   <div class="featured">
                     <span>FEATURED {{country}}</span>
-                    <p>{{ slide.title }}</p>
+                    <p>{{ ((slide.type=='movie') ? 'Movies' : 'Shows')+' like '+slide.title }}</p>
                   </div>
                 </div>
               </v-carousel-item>
@@ -37,9 +38,9 @@
             <v-col v-for="article in articles" :key="article.id">
               <ArticleCard
                 :title="article.title"
-                :description="article.description"
+                :description="'Top '+article.similar_content_count+' awesome '+((article.type=='movie') ? 'movies' : 'shows')+' like '+article.title+' that you will enjoy watching'"
                 :image="article.image"
-                :url="article.url"
+                :url="((article.type=='movie') ? 'movies' : 'shows')+'-like-'+article.title.replace(/[^a-z0-9]+/gi,'-').toLowerCase()"
               />
             </v-col>
           </v-row>
@@ -66,90 +67,69 @@ export default {
   data: function() {
     return {
       country: null,
-      featured: [
-        {
-          title:
-            "Top 10 awesome shows like Young Sheldon that you will enjoy watching",
-          image: "young-sheldon.jpg"
-        },
-        {
-          title:
-            "Top 10 awesome shows like The Office that you will enjoy watching",
-          image: "the-office.jpg"
-        },
-        {
-          title: "Panchayat",
-          image: "panchayat.jpg"
-        }
-      ],
-      articles: [
-        {
-          id: 1,
-          title:
-            "Top 10 awesome shows like The Office that you will enjoy watching",
-          description:
-            "You just finished watching Young Sheldon and you can’t get over how good this show was. Now you want to watch more of such masterpieces.",
-          image: "young-sheldon.jpg",
-          url: "movies-like-young-sheldon"
-        },
-        {
-          id: 2,
-          title:
-            "Top 10 awesome shows like The Office that you will enjoy watching",
-          description:
-            "You just finished watching Young Sheldon and you can’t get over how good this show was. Now you want to watch more of such masterpieces.",
-          image: "panchayat.jpg",
-          url: "movies-like-young-sheldon"
-        },
-        {
-          id: 3,
-          title:
-            "Top 10 awesome shows like The Office that you will enjoy watching",
-          description:
-            "You just finished watching Young Sheldon and you can’t get over how good this show was. Now you want to watch more of such masterpieces.",
-          image: "the-office.jpg",
-          url: "movies-like-young-sheldon"
-        },
-        {
-          id: 4,
-          title:
-            "Top 10 awesome shows like The Office that you will enjoy watching",
-          description:
-            "You just finished watching Young Sheldon and you can’t get over how good this show was. Now you want to watch more of such masterpieces.",
-          image: "panchayat.jpg",
-          url: "movies-like-young-sheldon"
-        },
-        {
-          id: 5,
-          title:
-            "Top 10 awesome shows like The Office that you will enjoy watching",
-          description:
-            "You just finished watching Young Sheldon and you can’t get over how good this show was. Now you want to watch more of such masterpieces.",
-          image: "young-sheldon.jpg",
-          url: "movies-like-young-sheldon"
-        },
-        {
-          id: 6,
-          title:
-            "Top 10 awesome shows like The Office that you will enjoy watching",
-          description:
-            "You just finished watching Young Sheldon and you can’t get over how good this show was. Now you want to watch more of such masterpieces.",
-          image: "the-office.jpg",
-          url: "movies-like-young-sheldon"
-        }
-      ]
+      featured: [],
+      articles: [],
+      min_popularity: null,
+      fetching_incremental: false,
+      api_host: 'https://yzal-dev-app.flibo.ai/'
     };
   },
   created() {
     var self = this;
+
+    axios
+        .post(self.api_host + 'blogs_contents', {
+                popularity: null
+            })
+        .then(function(response) {
+            if (response.status==200) {
+                self.featured = response.data.blogs.slice(0,3);
+                self.articles = response.data.blogs.slice(3,);
+                self.min_popularity = response.data.min_popularity;
+                document.dispatchEvent(new Event("x-app-rendered"));
+            }
+          });
+
     axios
         .get('https://ipinfo.io/?token=a354c067e1fef5')
         .then(function(response) {
             if ([200].includes(response.status)) {
               self.country = response.data.country;
-              document.dispatchEvent(new Event("x-app-rendered"));
             }
         });
+  },
+  mounted () {
+      window.addEventListener('scroll', this.watchScroll)
+  },
+  methods: {
+    watchScroll() {
+        var self = this;
+        var scroll_completion = window.scrollY/(document.documentElement.scrollHeight-document.documentElement.clientHeight);
+        if (document.documentElement.scrollHeight == document.documentElement.clientHeight) {
+            scroll_completion = 1
+        };
+        if ((scroll_completion > 0.8)
+            &&
+            (!self.fetching_incremental)
+            &&
+            (self.articles.length < 20000)) {
+              self.fetching_incremental = true;
+              axios
+                .post(self.api_host + 'blogs_contents', {
+                        popularity: self.min_popularity
+                    })
+                .then(function(response) {
+                    if (response.status==200) {
+                        self.articles.push(...response.data.blogs);
+                        self.min_popularity = response.data.min_popularity;
+                        self.fetching_incremental = false;
+                    }
+                  })
+                .catch(function(error) {
+                  self.fetching_incremental = false;
+                });
+        }
+    }
   }
 };
 </script>
