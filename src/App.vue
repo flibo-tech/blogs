@@ -61,6 +61,83 @@ export default {
 
   components: {},
 
+  metaInfo() {
+    return {
+      title: "Discover Movies & TV Shows",
+      meta: [
+        {
+          vmid: "description",
+          name: "description",
+          content:
+            "You have so many streaming subscriptions but still cannot decide what to watch? We are here to help you personalize all your streaming apps. Swipe your way through clutter.",
+        },
+        {
+          "http-equiv": "Content-Type",
+          content: "text/html; charset=UTF-8",
+        },
+        {
+          vmid: "viewport",
+          name: "viewport",
+          content: "width=device-width, initial-scale=1",
+        },
+        {
+          vmid: "og:title",
+          property: "og:title",
+          content: "Discover Movies & TV Shows",
+        },
+        {
+          vmid: "og:description",
+          property: "og:description",
+          content:
+            "You have so many streaming subscriptions but still cannot decide what to watch? We are here to help you personalize all your streaming apps. Swipe your way through clutter.",
+        },
+        {
+          vmid: "og:url",
+          property: "og:url",
+          content: window.location.href,
+        },
+        {
+          vmid: "og:type",
+          property: "og:type",
+          content: "website",
+        },
+        {
+          vmid: "og:image",
+          property: "og:image",
+          content:
+            "https://flibo-images.s3-us-west-2.amazonaws.com/covers/login-cover.jpg",
+        },
+        {
+          vmid: "twitter:card",
+          name: "twitter:card",
+          content: "summary",
+        },
+        {
+          vmid: "twitter:title",
+          name: "twitter:title",
+          content: "Discover Movies & TV Shows",
+        },
+        {
+          vmid: "twitter:description",
+          name: "twitter:description",
+          content:
+            "You have so many streaming subscriptions but still cannot decide what to watch? We are here to help you personalize all your streaming apps. Swipe your way through clutter.",
+        },
+        {
+          vmid: "twitter:url",
+          name: "twitter:url",
+          content: window.location.href,
+        },
+        {
+          vmid: "twitter:image",
+          name: "twitter:image",
+          content:
+            "https://flibo-images.s3-us-west-2.amazonaws.com/covers/login-cover.jpg",
+        },
+      ],
+    };
+  },
+
   data() {
     return {
       store: this.$store.state,

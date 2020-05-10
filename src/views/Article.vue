@@ -68,7 +68,22 @@
                 </v-col>
                 <v-col>
                   <v-row>
-                    <h2>{{ item.title }}</h2>
+                    <h2>
+                      <a
+                        style="color: #333;text-decoration: none;"
+                        :href="
+                          store.app_host +
+                            'content/' +
+                            item.content_id +
+                            '/' +
+                            item.title
+                              .replace(/[^a-z0-9]+/gi, '-')
+                              .toLowerCase()
+                        "
+                        target="_blank"
+                        >{{ item.title }}</a
+                      >
+                    </h2>
                   </v-row>
 
                   <v-row>
@@ -155,30 +170,42 @@ export default {
   metaInfo() {
     if (this.title) {
       return {
-        title:
-          "Top " +
-          this.similar_contents.length +
-          " awesome " +
-          (this.is_movie ? "movies" : "shows") +
-          " like " +
-          this.title +
-          " that you will enjoy watching",
+        title: this.meta_title,
         meta: [
           {
             vmid: "description",
             name: "description",
-            content:
-              "Are you looking for " +
-              (this.is_movie ? "movies" : "shows") +
-              " like " +
-              this.title +
-              "? If yes, then we have curated a list for you. A list of " +
-              (this.is_movie ? "movies" : "shows") +
-              " by the likes of " +
-              [
-                this.main_artists.slice(0, -1).join(", "),
-                this.main_artists.slice(-1)[0],
-              ].join(this.main_artists.length < 2 ? "" : " and "),
+            content: this.meta_description,
+          },
+          {
+            vmid: "og:title",
+            property: "og:title",
+            content: this.meta_title,
+          },
+          {
+            vmid: "og:description",
+            property: "og:description",
+            content: this.meta_description,
+          },
+          {
+            vmid: "og:image",
+            property: "og:image",
+            content: this.poster,
+          },
+          {
+            vmid: "twitter:title",
+            name: "twitter:title",
+            content: this.meta_title,
+          },
+          {
+            vmid: "twitter:description",
+            name: "twitter:description",
+            content: this.meta_description,
+          },
+          {
+            vmid: "twitter:image",
+            name: "twitter:image",
+            content: this.poster,
           },
         ],
       };
@@ -186,6 +213,7 @@ export default {
   },
   data: function() {
     return {
+      store: this.$store.state,
       content_name: null,
       is_movie: false,
       is_show: false,
@@ -268,6 +296,35 @@ export default {
       .catch(function(error) {
         // console.log(error);
       });
+  },
+  computed: {
+    meta_title: function() {
+      return (
+        "Top " +
+        this.similar_contents.length +
+        " awesome " +
+        (this.is_movie ? "movies" : "shows") +
+        " like " +
+        this.title +
+        " that you will enjoy watching"
+      );
+    },
+    meta_description: function() {
+      return (
+        "Are you looking for " +
+        (this.is_movie ? "movies" : "shows") +
+        " like " +
+        this.title +
+        "? If yes, then we have curated a list for you, a list of " +
+        (this.is_movie ? "movies" : "shows") +
+        " by the likes of " +
+        [
+          this.main_artists.slice(0, -1).join(", "),
+          this.main_artists.slice(-1)[0],
+        ].join(this.main_artists.length < 2 ? "" : " and ") +
+        "."
+      );
+    },
   },
 };
 </script>

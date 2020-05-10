@@ -92,12 +92,11 @@ export default {
       featured: [],
       articles: [],
       min_popularity: null,
-      fetching_incremental: false,
+      fetching: true,
     };
   },
   created() {
     var self = this;
-
     axios
       .post(self.$store.state.api_host + "blogs_contents", {
         popularity: null,
@@ -107,12 +106,19 @@ export default {
           self.featured = response.data.blogs.slice(0, 3);
           self.articles = response.data.blogs.slice(3);
           self.min_popularity = response.data.min_popularity;
+          self.fetching = false;
           document.dispatchEvent(new Event("x-app-rendered"));
         }
+      })
+      .catch(function(error) {
+        self.fetching = false;
       });
   },
   mounted() {
     window.addEventListener("scroll", this.watchScroll);
+  },
+  beforeDestroy() {
+    window.removeEventListener("scroll", this.watchScroll);
   },
   methods: {
     watchScroll() {
@@ -127,12 +133,14 @@ export default {
       ) {
         scroll_completion = 1;
       }
+
       if (
         scroll_completion > 0.8 &&
-        !self.fetching_incremental &&
-        self.articles.length < 20000
+        !self.fetching &&
+        self.articles.length < 20000 &&
+        self.$route.path == "/"
       ) {
-        self.fetching_incremental = true;
+        self.fetching = true;
         axios
           .post(self.$store.state.api_host + "blogs_contents", {
             popularity: self.min_popularity,
@@ -141,11 +149,11 @@ export default {
             if (response.status == 200) {
               self.articles.push(...response.data.blogs);
               self.min_popularity = response.data.min_popularity;
-              self.fetching_incremental = false;
+              self.fetching = false;
             }
           })
           .catch(function(error) {
-            self.fetching_incremental = false;
+            self.fetching = false;
           });
       }
     },
