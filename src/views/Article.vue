@@ -392,6 +392,9 @@ export default {
               .then(function(response) {
                 if (response.status == 200) {
                   self.where_to_watch = response.data;
+                  document.dispatchEvent(new Event("x-app-rendered"));
+                } else {
+                  document.dispatchEvent(new Event("x-app-rendered"));
                 }
               });
           } else {
@@ -407,6 +410,9 @@ export default {
                 .then(function(response) {
                   if (response.status == 200) {
                     self.where_to_watch = response.data;
+                    document.dispatchEvent(new Event("x-app-rendered"));
+                  } else {
+                    document.dispatchEvent(new Event("x-app-rendered"));
                   }
                 }),
               500

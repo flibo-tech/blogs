@@ -5,11 +5,13 @@ module.exports = {
     prerenderSpa: {
       registry: undefined,
       renderRoutes: [
-        '/'
+        "/",
+        "/movies-like-the-shawshank-redemption",
+        "/movies-like-fight-club",
       ],
       useRenderEvent: true,
       headless: true,
-      onlyProduction: true
-    }
-  }
+      onlyProduction: true,
+    },
+  },
 };

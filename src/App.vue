@@ -94,7 +94,7 @@ export default {
         {
           vmid: "og:url",
           property: "og:url",
-          content: window.location.href,
+          content: this.store.blog_host + this.$route.path,
         },
         {
           vmid: "og:type",
@@ -126,7 +126,7 @@ export default {
         {
           vmid: "twitter:url",
           name: "twitter:url",
-          content: window.location.href,
+          content: this.store.blog_host + this.$route.path,
         },
         {
           vmid: "twitter:image",
