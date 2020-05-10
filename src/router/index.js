@@ -2,8 +2,10 @@ import Vue from "vue";
 import VueRouter from "vue-router";
 import Home from "../views/Home.vue";
 import Article from "../views/Article.vue";
+import Meta from "vue-meta";
 
 Vue.use(VueRouter);
+Vue.use(Meta);
 
 const routes = [
   {

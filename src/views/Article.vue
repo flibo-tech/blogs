@@ -1,6 +1,6 @@
 <template>
   <div>
-    <v-container class="fill-height">
+    <v-container class="fill-height" v-if="title">
       <v-row>
         <v-col>
           <v-img
@@ -36,9 +36,25 @@
           </p>
 
           <ol>
-            <li v-for="(item, index) in similar_contents" :key="index">
-              {{ item.title }}
-            </li>
+            <v-row>
+              <v-col>
+                <li
+                  v-for="(item, index) in similar_contents.slice(0, 5)"
+                  :key="index"
+                >
+                  {{ item.title }}
+                </li>
+              </v-col>
+
+              <v-col>
+                <li
+                  v-for="(item, index) in similar_contents.slice(5)"
+                  :key="index"
+                >
+                  {{ item.title }}
+                </li>
+              </v-col>
+            </v-row>
           </ol>
 
           <ol>
@@ -59,8 +75,16 @@
                     {{ item.summary_text }}
                   </v-row>
 
-                  <v-row>
-                    You can watch this on
+                  <v-row
+                    v-if="
+                      Object.keys(where_to_watch).length &&
+                        where_to_watch[JSON.stringify(item.content_id)]
+                          .streaming_info
+                    "
+                  >
+                    <span style="white-space: pre-wrap;"
+                      >You can watch this on
+                    </span>
                     <span
                       v-for="(streaming_item,
                       streaming_index) in where_to_watch[
@@ -68,8 +92,51 @@
                       ].streaming_info"
                       :key="streaming_index"
                     >
-                      {{ streaming_index + ", " }}
+                      <span
+                        style="white-space: pre-wrap;"
+                        v-if="
+                          Object.keys(
+                            where_to_watch[JSON.stringify(item.content_id)]
+                              .streaming_info
+                          ).indexOf(streaming_index) ==
+                            Object.keys(
+                              where_to_watch[JSON.stringify(item.content_id)]
+                                .streaming_info
+                            ).length -
+                              1 &&
+                            Object.keys(
+                              where_to_watch[JSON.stringify(item.content_id)]
+                                .streaming_info
+                            ).indexOf(streaming_index) != 0
+                        "
+                      >
+                        and
+                      </span>
+
+                      <span
+                        v-else-if="
+                          Object.keys(
+                            where_to_watch[JSON.stringify(item.content_id)]
+                              .streaming_info
+                          ).indexOf(streaming_index) != 0
+                        "
+                        >,
+                      </span>
+
+                      <a
+                        style="font-weight: bold;color: #333;text-decoration: none;"
+                        :href="streaming_item"
+                        target="_blank"
+                        >{{
+                          streaming_index
+                            .replace(/[_]+/gi, " ")
+                            .replace(/(^|\s)\S/g, function(t) {
+                              return t.toUpperCase();
+                            })
+                        }}
+                      </a>
                     </span>
+                    .
                   </v-row>
                 </v-col>
               </v-row>
@@ -85,6 +152,38 @@
 import axios from "axios";
 export default {
   name: "Article",
+  metaInfo() {
+    if (this.title) {
+      return {
+        title:
+          "Top " +
+          this.similar_contents.length +
+          " awesome " +
+          (this.is_movie ? "movies" : "shows") +
+          " like " +
+          this.title +
+          " that you will enjoy watching",
+        meta: [
+          {
+            vmid: "description",
+            name: "description",
+            content:
+              "Are you looking for " +
+              (this.is_movie ? "movies" : "shows") +
+              " like " +
+              this.title +
+              "? If yes, then we have curated a list for you. A list of " +
+              (this.is_movie ? "movies" : "shows") +
+              " by the likes of " +
+              [
+                this.main_artists.slice(0, -1).join(", "),
+                this.main_artists.slice(-1)[0],
+              ].join(this.main_artists.length < 2 ? "" : " and "),
+          },
+        ],
+      };
+    }
+  },
   data: function() {
     return {
       content_name: null,
