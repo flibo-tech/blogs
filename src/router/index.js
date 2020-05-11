@@ -1,7 +1,7 @@
 import Vue from "vue";
 import VueRouter from "vue-router";
-import Home from "../views/Home.vue";
-import Article from "../views/Article.vue";
+const Home = (resolve) => require(["../views/Home.vue"], resolve);
+const Article = (resolve) => require(["../views/Article.vue"], resolve);
 import Meta from "vue-meta";
 
 Vue.use(VueRouter);
