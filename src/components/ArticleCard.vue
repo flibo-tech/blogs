@@ -17,11 +17,11 @@
         </div>
       </v-card-text>
 
-      <v-card-actions>
+      <!-- <v-card-actions>
         <v-btn text color="primary" :to="url">
           Read
         </v-btn>
-      </v-card-actions>
+      </v-card-actions> -->
     </v-card>
   </div>
 </template>
@@ -33,9 +33,4 @@ export default {
 };
 </script>
 
-<style lang="scss" scoped>
-a {
-  text-decoration: none;
-  color: #212121 !important;
-}
-</style>
+<style lang="scss" scoped></style>
