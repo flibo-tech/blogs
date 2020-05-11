@@ -1,24 +1,20 @@
 <template>
   <div>
-    <v-container class="fill-height" v-if="title">
-      <v-row>
-        <v-col>
+    <section class="container" v-if="title">
+      <div class="row">
+        <div class="col-12">
           <v-breadcrumbs :items="navigation_links"></v-breadcrumbs>
-        </v-col>
-      </v-row>
-
-      <v-row>
-        <v-col>
           <v-img
+            class="article-movie-poster"
             :src="poster.replace('/w500/', '/w1280/')"
             alt=""
             aspect-ratio="2"
           ></v-img>
-        </v-col>
-      </v-row>
+        </div>
+      </div>
 
-      <v-row>
-        <v-col>
+      <div class="row">
+        <div class="col-12">
           <div class="article-similar-container">
             <h1>
               Top {{ similar_contents.length }} awesome
@@ -44,39 +40,41 @@
             </p>
 
             <ol>
-              <v-row>
-                <v-col>
+              <div class="row">
+                <div class="col-6">
                   <li
                     v-for="(item, index) in similar_contents.slice(0, 5)"
                     :key="index"
                   >
                     {{ item.title }}
                   </li>
-                </v-col>
+                </div>
 
-                <v-col>
+                <div class="col-6">
                   <li
                     v-for="(item, index) in similar_contents.slice(5)"
                     :key="index"
                   >
                     {{ item.title }}
                   </li>
-                </v-col>
-              </v-row>
+                </div>
+              </div>
             </ol>
 
-            <ol>
+            <ol class="movie-list">
               <li v-for="(item, index) in similar_contents" :key="index">
-                <v-row>
-                  <v-col>
+                <div class="row">
+                  <div class="col-md-6">
                     <img
                       class="article-poster"
                       :src="item.poster"
                       :alt="item.title"
                     />
-                  </v-col>
-                  <v-col>
-                    <v-row>
+                  </div>
+
+                  <!-- MOVIE CONTENT -->
+                  <div class="col-md-6">
+                    <div class="movie-content">
                       <h2>
                         <a
                           style="color: #333;text-decoration: none;"
@@ -93,96 +91,96 @@
                           >{{ item.title }}</a
                         >
                       </h2>
-                    </v-row>
 
-                    <v-row>
-                      {{ item.summary_text }}
-                    </v-row>
-
-                    <v-row
-                      v-if="
-                        Object.keys(where_to_watch).length &&
-                          where_to_watch[JSON.stringify(item.content_id)]
-                            .streaming_info
-                      "
-                    >
-                      <span style="white-space: pre-wrap;"
-                        >You can watch this on
-                      </span>
-                      <span
-                        v-for="(streaming_item,
-                        streaming_index) in where_to_watch[
-                          JSON.stringify(item.content_id)
-                        ].streaming_info"
-                        :key="streaming_index"
+                      <!--  -->
+                      <p>{{ item.summary_text }}</p>
+                      <!--  -->
+                      <p
+                        v-if="
+                          Object.keys(where_to_watch).length &&
+                            where_to_watch[JSON.stringify(item.content_id)]
+                              .streaming_info
+                        "
                       >
+                        <span style="white-space: pre-wrap;"
+                          >You can watch this on
+                        </span>
                         <span
-                          style="white-space: pre-wrap;"
-                          v-if="
-                            Object.keys(
-                              where_to_watch[JSON.stringify(item.content_id)]
-                                .streaming_info
-                            ).indexOf(streaming_index) ==
+                          v-for="(streaming_item,
+                          streaming_index) in where_to_watch[
+                            JSON.stringify(item.content_id)
+                          ].streaming_info"
+                          :key="streaming_index"
+                        >
+                          <span
+                            style="white-space: pre-wrap;"
+                            v-if="
                               Object.keys(
                                 where_to_watch[JSON.stringify(item.content_id)]
                                   .streaming_info
-                              ).length -
-                                1 &&
+                              ).indexOf(streaming_index) ==
+                                Object.keys(
+                                  where_to_watch[
+                                    JSON.stringify(item.content_id)
+                                  ].streaming_info
+                                ).length -
+                                  1 &&
+                                Object.keys(
+                                  where_to_watch[
+                                    JSON.stringify(item.content_id)
+                                  ].streaming_info
+                                ).indexOf(streaming_index) != 0
+                            "
+                          >
+                            and
+                          </span>
+
+                          <span
+                            v-else-if="
                               Object.keys(
                                 where_to_watch[JSON.stringify(item.content_id)]
                                   .streaming_info
                               ).indexOf(streaming_index) != 0
-                          "
-                        >
-                          and
+                            "
+                            >,
+                          </span>
+
+                          <a
+                            style="font-weight: bold;color: #333;text-decoration: none;"
+                            :href="streaming_item"
+                            target="_blank"
+                            >{{
+                              streaming_index
+                                .replace(/[_]+/gi, " ")
+                                .replace(/(^|\s)\S/g, function(t) {
+                                  return t.toUpperCase();
+                                })
+                            }}
+                          </a>
                         </span>
-
-                        <span
-                          v-else-if="
-                            Object.keys(
-                              where_to_watch[JSON.stringify(item.content_id)]
-                                .streaming_info
-                            ).indexOf(streaming_index) != 0
-                          "
-                          >,
-                        </span>
-
-                        <a
-                          style="font-weight: bold;color: #333;text-decoration: none;"
-                          :href="streaming_item"
-                          target="_blank"
-                          >{{
-                            streaming_index
-                              .replace(/[_]+/gi, " ")
-                              .replace(/(^|\s)\S/g, function(t) {
-                                return t.toUpperCase();
-                              })
-                          }}
-                        </a>
-                      </span>
-                      .
-                    </v-row>
-
-                    <v-row>
-                      <v-col>
-                        <v-btn
-                          v-if="item.youtube_trailer_id"
-                          @click="
-                            item.youtube_trailer_id ? playTrailer(index) : ''
-                          "
-                        >
-                          Watch Trailer
-                        </v-btn>
-                      </v-col>
-                    </v-row>
-                  </v-col>
-                </v-row>
+                        .
+                      </p>
+                      <!-- TRAILER -->
+                      <v-btn
+                        v-if="item.youtube_trailer_id"
+                        @click="
+                          item.youtube_trailer_id ? playTrailer(index) : null
+                        "
+                      >
+                        Watch Trailer
+                      </v-btn>
+                      <!--  -->
+                    </div>
+                  </div>
+                </div>
               </li>
             </ol>
           </div>
-        </v-col>
-      </v-row>
-    </v-container>
+          <!--  -->
+        </div>
+        <!--  -->
+      </div>
+    </section>
 
     <transition
       appear
@@ -295,39 +293,39 @@ export default {
           {
             vmid: "description",
             name: "description",
-            content: this.meta_description,
+            content: this.meta_description
           },
           {
             vmid: "og:title",
             property: "og:title",
-            content: this.meta_title,
+            content: this.meta_title
           },
           {
             vmid: "og:description",
             property: "og:description",
-            content: this.meta_description,
+            content: this.meta_description
           },
           {
             vmid: "og:image",
             property: "og:image",
-            content: this.poster.replace("/w500/", "/w1280/"),
+            content: this.poster.replace("/w500/", "/w1280/")
           },
           {
             vmid: "twitter:title",
             name: "twitter:title",
-            content: this.meta_title,
+            content: this.meta_title
           },
           {
             vmid: "twitter:description",
             name: "twitter:description",
-            content: this.meta_description,
+            content: this.meta_description
           },
           {
             vmid: "twitter:image",
             name: "twitter:image",
-            content: this.poster.replace("/w500/", "/w1280/"),
-          },
-        ],
+            content: this.poster.replace("/w500/", "/w1280/")
+          }
+        ]
       };
     }
   },
@@ -346,7 +344,7 @@ export default {
       similar_contents: [],
       where_to_watch: {},
       play_trailer_index: null,
-      play_trailer: false,
+      play_trailer: false
     };
   },
   created() {
@@ -364,7 +362,7 @@ export default {
       .post(self.$store.state.api_host + "similar_contents_for_blog", {
         content_name: self.content_name,
         content_type: self.is_movie ? "movie" : "tv",
-        guest_id: self.$store.state.guest_id,
+        guest_id: self.$store.state.guest_id
       })
       .then(function(response) {
         if (response.status == 200) {
@@ -386,7 +384,7 @@ export default {
                 self.$store.state.api_host + "where_to_watch_similar_content",
                 {
                   content_ids: content_ids,
-                  country: self.$store.state.guest_country,
+                  country: self.$store.state.guest_country
                 }
               )
               .then(function(response) {
@@ -404,7 +402,7 @@ export default {
                   self.$store.state.api_host + "where_to_watch_similar_content",
                   {
                     content_ids: content_ids,
-                    country: self.$store.state.guest_country || "United States",
+                    country: self.$store.state.guest_country || "United States"
                   }
                 )
                 .then(function(response) {
@@ -430,13 +428,13 @@ export default {
         {
           text: "Home",
           disabled: false,
-          href: "/",
+          href: "/"
         },
         {
           text: (this.is_movie ? "Movies" : "Shows") + " like " + this.title,
           disabled: true,
-          href: this.$route.path,
-        },
+          href: this.$route.path
+        }
       ];
       return crumbs;
     },
@@ -462,11 +460,11 @@ export default {
         " by the likes of " +
         [
           this.main_artists.slice(0, -1).join(", "),
-          this.main_artists.slice(-1)[0],
+          this.main_artists.slice(-1)[0]
         ].join(this.main_artists.length < 2 ? "" : " and ") +
         "."
       );
-    },
+    }
   },
   methods: {
     playTrailer(index) {
@@ -475,8 +473,8 @@ export default {
     },
     goToPlatform(link) {
       window.open(link);
-    },
-  },
+    }
+  }
 };
 </script>
 
@@ -621,7 +619,7 @@ ol li::before {
   max-width: 500px;
 }
 .article-similar-container {
-  max-width: 900px;
+  max-width: 800px;
   margin: 0 auto;
 }
 .videoWrapper {
@@ -638,5 +636,43 @@ ol li::before {
   left: 0;
   width: 100%;
   height: 100%;
+}
+
+.movie-content {
+  padding-left: 20px;
+}
+
+.article-movie-poster {
+  border-radius: 21px;
+}
+
+@media (max-width: 720px) {
+  .movie-content {
+    padding-left: 0px;
+  }
+
+  ol.movie-list {
+    padding-left: 0;
+  }
+  ol.movie-list li {
+    padding-left: 0px;
+  }
+
+  ol.movie-list li::before {
+    display: inline-block;
+    content: counter(article-counter);
+    position: absolute;
+    width: 40px;
+    height: 40px;
+    text-align: center;
+    padding: 1px;
+    font-size: 1.6rem;
+    font-weight: bold;
+    top: 22px;
+    left: 10px;
+    border-radius: 50%;
+    background-color: #e8e8e8;
+    z-index: 2;
+  }
 }
 </style>
