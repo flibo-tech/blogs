@@ -8,7 +8,7 @@
               alt="Vuetify Logo"
               class="shrink mr-2"
               contain
-              src="./assets/flibo-logo.svg"
+              src="https://flibo-images.s3-us-west-2.amazonaws.com/logos/flibo-logo.svg"
               transition="scale-transition"
               width="120"
             />
@@ -31,7 +31,7 @@
           alt="Vuetify Logo"
           class="shrink mr-2"
           contain
-          src="./assets/flibo-logo.svg"
+          src="https://flibo-images.s3-us-west-2.amazonaws.com/logos/flibo-logo.svg"
           transition="scale-transition"
           width="120"
         />

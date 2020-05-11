@@ -8,6 +8,8 @@ module.exports = {
         "/",
         "/movies-like-the-shawshank-redemption",
         "/movies-like-fight-club",
+        "/movies-like-her",
+        "/shows-like-game-of-thrones",
       ],
       useRenderEvent: true,
       headless: true,
