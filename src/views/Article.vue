@@ -94,6 +94,15 @@
 
                       <!--  -->
                       <p>{{ item.summary_text }}</p>
+                      <p>
+                        This {{ is_movie ? "movie" : "show" }}, created by
+                        {{ artistConcat(item.main_artists) }}, scores
+                        {{ item.imdb_score }} on IMDb.
+                      </p>
+                      <p>
+                        Genres -
+                        {{ item.genres.join(" | ").replace(/[/']+/gi, "") }}
+                      </p>
                       <!--  -->
                       <p
                         v-if="
@@ -455,7 +464,7 @@ export default {
         (this.is_movie ? "movies" : "shows") +
         " like " +
         this.title +
-        "? If yes, then we have curated a list for you, a list of " +
+        "? We have curated a list for you, a list of " +
         (this.is_movie ? "movies" : "shows") +
         " by the likes of " +
         [
@@ -473,6 +482,11 @@ export default {
     },
     goToPlatform(link) {
       window.open(link);
+    },
+    artistConcat(artists) {
+      return [artists.slice(0, -1).join(", "), artists.slice(-1)[0]].join(
+        artists.length < 2 ? "" : " and "
+      );
     }
   }
 };
