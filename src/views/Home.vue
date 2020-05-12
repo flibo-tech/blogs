@@ -43,7 +43,7 @@
       <!-- == ARTICLES -->
       <v-row>
         <v-col>
-          <h2>Articles</h2>
+          <h1 style="font-size: 1.5rem;">Discover Movies &amp; TV Shows</h1>
           <v-row>
             <v-col v-for="article in articles" :key="article.id">
               <ArticleCard
@@ -84,7 +84,7 @@ import axios from "axios";
 export default {
   name: "Home",
   components: {
-    ArticleCard,
+    ArticleCard
   },
   data: function() {
     return {
@@ -92,14 +92,14 @@ export default {
       featured: [],
       articles: [],
       min_popularity: null,
-      fetching: true,
+      fetching: true
     };
   },
   created() {
     var self = this;
     axios
       .post(self.$store.state.api_host + "blogs_contents", {
-        popularity: null,
+        popularity: null
       })
       .then(function(response) {
         if (response.status == 200) {
@@ -143,7 +143,7 @@ export default {
         self.fetching = true;
         axios
           .post(self.$store.state.api_host + "blogs_contents", {
-            popularity: self.min_popularity,
+            popularity: self.min_popularity
           })
           .then(function(response) {
             if (response.status == 200) {
@@ -156,8 +156,8 @@ export default {
             self.fetching = false;
           });
       }
-    },
-  },
+    }
+  }
 };
 </script>
 
