@@ -6,7 +6,6 @@
           <!-- FEATURED ARTICLES -->
           <div class="featured-slider">
             <v-carousel
-              cycle
               height="500"
               hide-delimiter-background
               show-arrows-on-hover
@@ -26,10 +25,11 @@
                     <span>FEATURED {{ country }}</span>
                     <p>
                       {{
-                        (slide.type == "movie" ? "Movies" : "Shows") +
-                          " like " +
-                          slide.title
+                        (slide.type == "movie" ? "Movies" : "Shows") + " like "
                       }}
+                      <strong>
+                        {{ slide.title }}
+                      </strong>
                     </p>
                   </div>
                 </div>
@@ -178,6 +178,10 @@ export default {
 }
 .featured span {
   font-size: 1rem;
+  // color: #212121;
+  // padding: 0.2rem 0.5rem;
+  // border-radius: 2px;
+  // background-color: #f7e5a8;
 }
 .featured p {
   font-size: 3rem;

@@ -64,7 +64,7 @@
             <ol class="movie-list">
               <li v-for="(item, index) in similar_contents" :key="index">
                 <div class="row">
-                  <div class="col-md-6">
+                  <div class="col-md-5 movie-poster-small">
                     <img
                       class="article-poster"
                       :src="item.poster"
@@ -73,7 +73,7 @@
                   </div>
 
                   <!-- MOVIE CONTENT -->
-                  <div class="col-md-6">
+                  <div class="col-md-7">
                     <div class="movie-content">
                       <h2>
                         <a
@@ -181,15 +181,68 @@
                       <!--  -->
                     </div>
                   </div>
+                  <!--  -->
                 </div>
               </li>
             </ol>
           </div>
           <!--  -->
+          <!-- FLIBO AD -->
+          <div class="row">
+            <div class="col-md-12 flibo-ad">
+              <a
+                href="https://play.google.com/store/apps/details?id=com.pivot.flibo"
+                ><img
+                  :src="require(`../assets/images/${fliboAd}`)"
+                  alt="Download Flibo app"
+              /></a>
+            </div>
+          </div>
+          <!-- FLIBO AD ENDS -->
         </div>
         <!--  -->
       </div>
     </section>
+
+    <!-- ===================== TRAILER POPUP -->
+    <!-- <template>
+      <div class="text-center">
+        <v-dialog v-model="dialog">
+          <template v-slot:activator="{ on }">
+            <v-btn color="red lighten-2" dark v-on="on">
+              Click Me
+            </v-btn>
+          </template>
+
+          <v-card>
+            <v-card-title class="headline grey lighten-2" primary-title>
+              Privacy Policy
+            </v-card-title>
+
+            <div class="videoWrapper">
+              <iframe
+                width="560"
+                height="315"
+                src="https://www.youtube.com/embed/QImCld9YubE"
+                frameborder="0"
+                allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
+                allowfullscreen
+              ></iframe>
+            </div>
+
+            <v-divider></v-divider>
+
+            <v-card-actions>
+              <v-spacer></v-spacer>
+              <v-btn color="primary" text @click="dialog = false">
+                I accept
+              </v-btn>
+            </v-card-actions>
+          </v-card>
+        </v-dialog>
+      </div>
+    </template> -->
+    <!-- TRAILER POPUP ENDS -->
 
     <transition
       appear
@@ -203,19 +256,14 @@
           @click="play_trailer = !play_trailer"
         />
 
-        <div
-          class="blog-youtube-player-header"
-          style="'top: 75px;left: calc(50vw - 500px);'"
-          v-if="play_trailer"
-        >
+        <div class="blog-youtube-player-header" v-if="play_trailer">
           Trailer
         </div>
 
-        <div v-if="play_trailer" class="blog-youtube-player-loader" />
+        <!-- <div v-if="play_trailer" class="blog-youtube-player-loader" /> -->
 
         <iframe
           class="blog-youtube-player"
-          style="width: 1000px;left: calc(50vw - 500px);top: 100px;height: 500px;"
           v-if="play_trailer"
           type="text/html"
           :src="
@@ -340,6 +388,8 @@ export default {
   },
   data: function() {
     return {
+      dialog: false, // for popup
+      fliboAd: "flibo-ad.png", // FLIBO AD image
       store: this.$store.state,
       is_mobile: window.screen.height > window.screen.width,
       content_name: null,
@@ -521,6 +571,31 @@ ol li::before {
   border-radius: 50%;
   background-color: #e8e8e8;
 }
+
+ol.movie-list {
+  padding-left: 0;
+}
+ol.movie-list li {
+  padding-left: 0px;
+}
+
+ol.movie-list li::before {
+  display: inline-block;
+  content: counter(article-counter);
+  position: absolute;
+  width: 40px;
+  height: 40px;
+  text-align: center;
+  padding: 1px;
+  font-size: 1.6rem;
+  font-weight: bold;
+  top: 22px;
+  left: 10px;
+  border-radius: 50%;
+  background-color: #e8e8e8;
+  z-index: 2;
+}
+
 .blog-black-background {
   position: fixed;
   width: 100vw;
@@ -615,7 +690,7 @@ ol li::before {
 }
 .blog-youtube-player-streaming-box {
   position: fixed;
-  top: 650px;
+  bottom: 50px;
   left: 50%;
   transform: translateX(-50%);
   z-index: 100001;
@@ -660,33 +735,23 @@ ol li::before {
   border-radius: 21px;
 }
 
+.flibo-ad img {
+  width: 100%;
+}
+
 @media (max-width: 720px) {
   .movie-content {
     padding-left: 0px;
   }
-
-  ol.movie-list {
-    padding-left: 0;
-  }
-  ol.movie-list li {
-    padding-left: 0px;
+  .movie-poster-small {
+    text-align: left;
+    padding-right: 80px !important;
   }
 
-  ol.movie-list li::before {
-    display: inline-block;
-    content: counter(article-counter);
-    position: absolute;
-    width: 40px;
-    height: 40px;
-    text-align: center;
-    padding: 1px;
-    font-size: 1.6rem;
-    font-weight: bold;
-    top: 22px;
-    left: 10px;
-    border-radius: 50%;
-    background-color: #e8e8e8;
-    z-index: 2;
+  .flibo-ad img {
+    // width: calc(100% + 48px);
+    // position: relative;
+    // left: -24px;
   }
 }
 </style>

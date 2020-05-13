@@ -51,6 +51,9 @@
 
     <v-content>
       <router-view />
+      <footer>
+        &copy; Flibo
+      </footer>
     </v-content>
   </v-app>
 </template>
@@ -293,9 +296,20 @@ a.f-primary {
   margin-top: 12px;
 }
 
+footer {
+  text-align: center;
+  color: rgba(0, 0, 0, 0.38);
+  margin: 20px 0;
+}
+
 @media (min-width: 1904px) {
   .container {
     max-width: 1185px !important;
+  }
+}
+@media (max-width: 720px) {
+  .container {
+    padding: 24px !important;
   }
 }
 </style>
