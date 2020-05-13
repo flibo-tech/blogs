@@ -6,7 +6,6 @@
           <!-- FEATURED ARTICLES -->
           <div class="featured-slider">
             <v-carousel
-              cycle
               height="500"
               hide-delimiter-background
               show-arrows-on-hover
@@ -14,12 +13,24 @@
               <v-carousel-item
                 v-for="(slide, i) in featured"
                 :key="i"
-                :src="require(`../assets/images/${slide.image}`)"
+                :src="slide.image.replace('/w500/', '/w1280/')"
+                :to="
+                  (slide.type == 'movie' ? 'movies' : 'shows') +
+                    '-like-' +
+                    slide.title.replace(/[^a-z0-9]+/gi, '-').toLowerCase()
+                "
               >
                 <div class="featured-slider-content">
                   <div class="featured">
-                    <span>FEATURED {{country}}</span>
-                    <p>{{ slide.title }}</p>
+                    <span>FEATURED {{ country }}</span>
+                    <p>
+                      {{
+                        (slide.type == "movie" ? "Movies" : "Shows") + " like "
+                      }}
+                      <strong>
+                        {{ slide.title }}
+                      </strong>
+                    </p>
                   </div>
                 </div>
               </v-carousel-item>
@@ -29,47 +40,123 @@
           <!-- == -->
         </v-col>
       </v-row>
+      <!-- == ARTICLES -->
+      <v-row>
+        <v-col>
+          <h1 style="font-size: 1.5rem;">Discover Movies &amp; TV Shows</h1>
+          <v-row>
+            <v-col v-for="article in articles" :key="article.id">
+              <ArticleCard
+                :title="article.title"
+                :description="
+                  'Top ' +
+                    article.similar_content_count +
+                    ' awesome ' +
+                    (article.type == 'movie' ? 'movies' : 'shows') +
+                    ' like ' +
+                    article.title +
+                    ' that you will enjoy watching'
+                "
+                :image="article.image"
+                :url="
+                  (article.type == 'movie' ? 'movies' : 'shows') +
+                    '-like-' +
+                    article.title.replace(/[^a-z0-9]+/gi, '-').toLowerCase()
+                "
+              />
+            </v-col>
+          </v-row>
+        </v-col>
+      </v-row>
+      <div class="articles-contaier"></div>
+
+      <!--  -->
     </v-container>
   </div>
 </template>
 
 <script>
+// @ is an alias to /src
+// import HelloWorld from "@/components/HelloWorld.vue";
+import ArticleCard from "@/components/ArticleCard";
 import axios from "axios";
 
 export default {
   name: "Home",
-  components: {},
+  components: {
+    ArticleCard
+  },
   data: function() {
     return {
       country: null,
-      featured: [
-        {
-          title:
-            "Top 10 awesome shows like Young Sheldon that you will enjoy watching",
-          image: "young-sheldon.jpg"
-        },
-        {
-          title:
-            "Top 10 awesome shows like The Office that you will enjoy watching",
-          image: "the-office.jpg"
-        },
-        {
-          title: "Panchayat",
-          image: "panchayat.jpg"
-        }
-      ]
+      featured: [],
+      articles: [],
+      min_popularity: null,
+      fetching: true
     };
   },
   created() {
     var self = this;
     axios
-        .get('https://ipinfo.io/?token=a354c067e1fef5')
-        .then(function(response) {
-            if ([200].includes(response.status)) {
-              self.country = response.data.country;
-              document.dispatchEvent(new Event("x-app-rendered"));
+      .post(self.$store.state.api_host + "blogs_contents", {
+        popularity: null
+      })
+      .then(function(response) {
+        if (response.status == 200) {
+          self.featured = response.data.blogs.slice(0, 3);
+          self.articles = response.data.blogs.slice(3);
+          self.min_popularity = response.data.min_popularity;
+          self.fetching = false;
+          document.dispatchEvent(new Event("x-app-rendered"));
+        }
+      })
+      .catch(function(error) {
+        self.fetching = false;
+      });
+  },
+  mounted() {
+    window.addEventListener("scroll", this.watchScroll);
+  },
+  beforeDestroy() {
+    window.removeEventListener("scroll", this.watchScroll);
+  },
+  methods: {
+    watchScroll() {
+      var self = this;
+      var scroll_completion =
+        window.scrollY /
+        (document.documentElement.scrollHeight -
+          document.documentElement.clientHeight);
+      if (
+        document.documentElement.scrollHeight ==
+        document.documentElement.clientHeight
+      ) {
+        scroll_completion = 1;
+      }
+
+      if (
+        scroll_completion > 0.8 &&
+        !self.fetching &&
+        self.articles.length < 20000 &&
+        self.$route.path == "/"
+      ) {
+        self.fetching = true;
+        axios
+          .post(self.$store.state.api_host + "blogs_contents", {
+            popularity: self.min_popularity
+          })
+          .then(function(response) {
+            if (response.status == 200) {
+              self.articles.push(...response.data.blogs);
+              self.min_popularity = response.data.min_popularity;
+              self.fetching = false;
             }
-        });
+          })
+          .catch(function(error) {
+            self.fetching = false;
+          });
+      }
+    }
   }
 };
 </script>
@@ -91,6 +178,10 @@ export default {
 }
 .featured span {
   font-size: 1rem;
+  // color: #212121;
+  // padding: 0.2rem 0.5rem;
+  // border-radius: 2px;
+  // background-color: #f7e5a8;
 }
 .featured p {
   font-size: 3rem;
