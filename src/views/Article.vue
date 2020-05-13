@@ -164,10 +164,9 @@
                                 .replace(/(^|\s)\S/g, function(t) {
                                   return t.toUpperCase();
                                 })
-                            }}
-                          </a>
-                        </span>
-                        .
+                            }}</a
+                          > </span
+                        >.
                       </p>
                       <!-- TRAILER -->
                       <v-btn
@@ -192,6 +191,7 @@
             <div class="col-md-12 flibo-ad">
               <a
                 href="https://play.google.com/store/apps/details?id=com.pivot.flibo"
+                target="_blank"
                 ><img
                   :src="require(`../assets/images/${fliboAd}`)"
                   alt="Download Flibo app"
@@ -256,14 +256,30 @@
           @click="play_trailer = !play_trailer"
         />
 
-        <div class="blog-youtube-player-header" v-if="play_trailer">
+        <div
+          class="blog-youtube-player-header"
+          v-if="play_trailer"
+          :style="is_mobile ? '' : 'top: 75px;left: calc(50vw - 500px);'"
+        >
           Trailer
         </div>
 
-        <!-- <div v-if="play_trailer" class="blog-youtube-player-loader" /> -->
+        <div
+          v-if="play_trailer"
+          :class="
+            is_mobile
+              ? 'blog-youtube-player-loader'
+              : 'desktop-blog-youtube-player-loader'
+          "
+        />
 
         <iframe
           class="blog-youtube-player"
+          :style="
+            is_mobile
+              ? ''
+              : 'width: 1000px;left: calc(50vw - 500px);top: 100px;height: 500px;'
+          "
           v-if="play_trailer"
           type="text/html"
           :src="
@@ -608,7 +624,7 @@ ol.movie-list li::before {
 }
 .blog-youtube-player-header {
   position: fixed;
-  top: 70px;
+  top: calc(50vh - 28.125vw - 20vh - 25px);
   left: 10px;
   z-index: 100001;
   white-space: initial;
@@ -625,6 +641,18 @@ ol.movie-list li::before {
   border: 10px solid #f3f3f3;
   border-top: 10px solid #3498db;
   border-radius: 50%;
+  width: 14vw;
+  height: 14vw;
+  animation: spin 2s linear infinite;
+  position: fixed;
+  top: calc(50vh - 20vh - 7vw);
+  left: calc(50% - 7vw);
+  z-index: 100000;
+}
+.desktop-blog-youtube-player-loader {
+  border: 10px solid #f3f3f3;
+  border-top: 10px solid #3498db;
+  border-radius: 50%;
   width: 75px;
   height: 75px;
   animation: spin 2s linear infinite;
@@ -633,7 +661,6 @@ ol.movie-list li::before {
   left: calc(50vw - 37.5px);
   z-index: 100000;
 }
-
 @keyframes spin {
   0% {
     transform: rotate(0deg);
@@ -690,7 +717,7 @@ ol.movie-list li::before {
 }
 .blog-youtube-player-streaming-box {
   position: fixed;
-  bottom: 50px;
+  bottom: 150px;
   left: 50%;
   transform: translateX(-50%);
   z-index: 100001;
