@@ -21,8 +21,8 @@ export const store = new Vuex.Store({
   state: {
     guest_id: my_store ? my_store.guest_id : null,
     guest_country: my_store ? my_store.guest_country : null,
-    app_host: "https://yzal-dev.flibo.ai/",
-    api_host: "https://yzal-dev-app.flibo.ai/",
+    app_host: "https://flibo.ai/",
+    api_host: "https://app.flibo.ai/",
     blog_host: "https://blog.flibo.ai",
     country_mappings: {
       AU: "Australia",
