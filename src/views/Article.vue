@@ -66,8 +66,8 @@
                 <div class="row">
                   <div class="col-md-5 movie-poster-small">
                     <img
-                      class="article-poster"
-                      :src="item.poster"
+                      class="article-poster lazy"
+                      :data-src="item.poster"
                       :alt="item.title"
                     />
                   </div>
@@ -193,8 +193,9 @@
                 href="https://play.google.com/store/apps/details?id=com.pivot.flibo"
                 target="_blank"
                 ><img
-                  :src="require(`../assets/images/${fliboAd}`)"
+                  :data-src="require(`../assets/images/${fliboAd}`)"
                   alt="Download Flibo app"
+                  class="lazy"
               /></a>
             </div>
           </div>
@@ -419,7 +420,9 @@ export default {
       similar_contents: [],
       where_to_watch: {},
       play_trailer_index: null,
-      play_trailer: false
+      play_trailer: false,
+      lazyloadImages: [],
+      lazyloadThrottleTimeout: null
     };
   },
   created() {
@@ -553,7 +556,36 @@ export default {
       return [artists.slice(0, -1).join(", "), artists.slice(-1)[0]].join(
         artists.length < 2 ? "" : " and "
       );
+    },
+    lazyload() {
+      var self = this;
+      if (self.lazyloadImages.length == 0) {
+        self.lazyloadImages = document.querySelectorAll("img.lazy");
+      }
+      if (self.lazyloadThrottleTimeout) {
+        clearTimeout(self.lazyloadThrottleTimeout);
+      }
+
+      self.lazyloadThrottleTimeout = setTimeout(function() {
+        var scrollTop = window.pageYOffset;
+        self.lazyloadImages.forEach(function(img) {
+          if (img.y - 200 < window.innerHeight) {
+            img.src = img.dataset.src;
+            img.classList.remove("lazy");
+            self.lazyloadImages = document.querySelectorAll("img.lazy");
+          }
+        });
+        if (self.lazyloadImages.length == 0) {
+          document.removeEventListener("scroll", self.lazyload);
+        }
+      }, 20);
     }
+  },
+  mounted() {
+    document.addEventListener("scroll", this.lazyload);
+  },
+  beforeDestroy() {
+    document.removeEventListener("scroll", this.lazyload);
   }
 };
 </script>
