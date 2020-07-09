@@ -1,17 +1,4 @@
-const CompressionPlugin = require("compression-webpack-plugin");
-
 module.exports = {
-  configureWebpack: {
-    plugins: [
-      new CompressionPlugin({
-        filename: "[path].gz[query]",
-        algorithm: "gzip",
-        test: /\.js$|\.css$|\.html$/,
-        threshold: 10240,
-        minRatio: 0.8,
-      }),
-    ],
-  },
   transpileDependencies: ["vuetify"],
 
   pluginOptions: {
@@ -19,7 +6,7 @@ module.exports = {
       registry: undefined,
       renderRoutes: [
         "/",
-        // "/movies-like-the-shawshank-redemption",
+        "/movies-like-the-shawshank-redemption",
         // "/movies-like-the-dark-knight",
         // "/movies-like-inception",
         // "/movies-like-fight-club",
