@@ -6,8 +6,9 @@
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
     "lint": "vue-cli-service lint",
-    "deploy": "aws s3 sync ./dist s3://flibo-blogs && npm run invalidate",
-    "invalidate": "aws cloudfront create-invalidation --distribution-id E37TZJ50VD8KLN --paths /*"
+    "deploy": "aws s3 sync ./dist s3://flibo-blogs && npm run s3-cache-control && npm run invalidate",
+    "invalidate": "aws cloudfront create-invalidation --distribution-id E37TZJ50VD8KLN --paths /*",
+    "s3-cache-control": "aws s3 cp s3://flibo-blogs/ s3://flibo-blogs/ --exclude \"*\" --include \"*.js\" --include \"*.css\" --include \"*.svg\" --metadata-directive REPLACE --recursive --cache-control max-age=31536000"
   },
   "dependencies": {
     "axios": "^0.19.2",
