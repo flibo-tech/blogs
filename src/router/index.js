@@ -1,7 +1,5 @@
 import Vue from "vue";
 import VueRouter from "vue-router";
-const Home = () => import("../views/Home.vue");
-const Article = () => import("../views/Article.vue");
 import Meta from "vue-meta";
 
 Vue.use(VueRouter);
@@ -11,12 +9,13 @@ const routes = [
   {
     path: "/",
     name: "Home",
-    component: Home,
+    component: () => import(/* webpackChunkName: "Home" */ "../views/Home.vue"),
   },
   {
     path: "/:content_name_piece",
     name: "Article",
-    component: Article,
+    component: () =>
+      import(/* webpackChunkName: "Article" */ "../views/Article.vue"),
   },
 ];
 
