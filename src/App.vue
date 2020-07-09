@@ -51,9 +51,6 @@
 
     <v-content>
       <router-view />
-      <footer>
-        &copy; Flibo
-      </footer>
     </v-content>
   </v-app>
 </template>
