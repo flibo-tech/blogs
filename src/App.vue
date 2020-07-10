@@ -57,7 +57,6 @@
 
 <script>
 import axios from "axios";
-import DeviceDetector from "device-detector-js";
 export default {
   name: "App",
 
@@ -157,13 +156,10 @@ export default {
     }
     this.is_home_page = this.$route.path == "/";
 
-              bot: device.bot,
-
-              screen_width: window.outerWidth,
-              screen_height: window.outerHeight
-            });
-          }
-        });
+    if (this.article_container == null || this.is_home_page) {
+      this.update_meta = true;
+      this.$store.state.guest_country = "United States";
+      this.$store.state.guest_id = "blog_prerenderer";
     }
   },
   computed: {
