@@ -50,7 +50,12 @@
     </v-app-bar>
 
     <v-content>
-      <router-view :article_raw="article_container" />
+      <router-view
+        :article_raw="article_container"
+        :description="article_description"
+        :title="article_title"
+        :image="article_image"
+      />
     </v-content>
   </v-app>
 </template>
@@ -146,17 +151,35 @@ export default {
       store: this.$store.state,
       update_meta: false,
       article_container: null,
-      is_home_page: false
+      article_description: null,
+      article_title: null,
+      article_image: null
     };
   },
   created() {
     this.article_container = document.getElementById("article_container");
     if (this.article_container) {
       this.article_container = this.article_container.outerHTML;
-    }
-    this.is_home_page = this.$route.path == "/";
 
-    if (this.article_container == null || this.is_home_page) {
+      this.article_metas = document.getElementsByTagName("meta");
+      for (let i = 0; i < this.article_metas.length; i++) {
+        if (this.article_metas[i].getAttribute("name") == "description") {
+          this.article_description = this.article_metas[i].getAttribute(
+            "content"
+          );
+        }
+
+        if (this.article_metas[i].getAttribute("name") == "twitter:title") {
+          this.article_title = this.article_metas[i].getAttribute("content");
+        }
+
+        if (this.article_metas[i].getAttribute("name") == "twitter:image") {
+          this.article_image = this.article_metas[i].getAttribute("content");
+        }
+      }
+    }
+
+    if (this.article_container == null) {
       this.update_meta = true;
       this.$store.state.guest_country = "United States";
       this.$store.state.guest_id = "blog_prerenderer";

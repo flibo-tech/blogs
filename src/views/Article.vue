@@ -25,7 +25,6 @@ export default {
       is_movie: false,
       is_show: false,
       content_id: null,
-      title: null,
       poster: null,
       main_artists: [],
       release_year: null,
@@ -39,6 +38,15 @@ export default {
   },
   props: {
     article_raw: {
+      default: null
+    },
+    description: {
+      default: null
+    },
+    title: {
+      default: null
+    },
+    image: {
       default: null
     }
   },
@@ -62,7 +70,7 @@ export default {
       self.lazyloadThrottleTimeout = setTimeout(function() {
         var scrollTop = window.pageYOffset;
         self.lazyloadImages.forEach(function(img) {
-          if (img.y - 200 < window.innerHeight) {
+          if (img.y - 5000 < window.innerHeight) {
             img.src = img.dataset.src;
             img.classList.remove("lazy");
             self.lazyloadImages = document.querySelectorAll("img.lazy");
@@ -72,6 +80,74 @@ export default {
           document.removeEventListener("scroll", self.lazyload);
         }
       }, 20);
+    }
+  },
+  created() {
+    if (this.article_raw) {
+      let meta = document.createElement("meta");
+      meta.httpEquiv = "Content-Type";
+      meta.content = "text/html; charset=UTF-8";
+      document.getElementsByTagName("head")[0].appendChild(meta);
+
+      meta = document.createElement("meta");
+      meta.name = "viewport";
+      meta.content = "width=device-width, initial-scale=1";
+      document.getElementsByTagName("head")[0].appendChild(meta);
+
+      meta = document.createElement("meta");
+      meta.property = "og:type";
+      meta.content = "website";
+      document.getElementsByTagName("head")[0].appendChild(meta);
+
+      meta = document.createElement("meta");
+      meta.name = "twitter:card";
+      meta.content = "summary";
+      document.getElementsByTagName("head")[0].appendChild(meta);
+
+      meta = document.createElement("meta");
+      meta.name = "description";
+      meta.content = this.description;
+      document.getElementsByTagName("head")[0].appendChild(meta);
+
+      meta = document.createElement("meta");
+      meta.property = "og:title";
+      meta.content = this.title;
+      document.getElementsByTagName("head")[0].appendChild(meta);
+
+      meta = document.createElement("meta");
+      meta.property = "og:description";
+      meta.content = this.description;
+      document.getElementsByTagName("head")[0].appendChild(meta);
+
+      meta = document.createElement("meta");
+      meta.property = "og:image";
+      meta.content = this.image;
+      document.getElementsByTagName("head")[0].appendChild(meta);
+
+      meta = document.createElement("meta");
+      meta.name = "twitter:title";
+      meta.content = this.title;
+      document.getElementsByTagName("head")[0].appendChild(meta);
+
+      meta = document.createElement("meta");
+      meta.name = "twitter:description";
+      meta.content = this.description;
+      document.getElementsByTagName("head")[0].appendChild(meta);
+
+      meta = document.createElement("meta");
+      meta.name = "twitter:image";
+      meta.content = this.image;
+      document.getElementsByTagName("head")[0].appendChild(meta);
+
+      meta = document.createElement("meta");
+      meta.property = "og:url";
+      meta.content = this.store.blog_host + this.$route.path;
+      document.getElementsByTagName("head")[0].appendChild(meta);
+
+      meta = document.createElement("meta");
+      meta.name = "twitter:url";
+      meta.content = this.store.blog_host + this.$route.path;
+      document.getElementsByTagName("head")[0].appendChild(meta);
     }
   },
   mounted() {
