@@ -14,10 +14,12 @@
                 v-for="(slide, i) in featured"
                 :key="i"
                 :src="slide.image.replace('/w500/', '/w1280/')"
-                :to="
-                  (slide.type == 'movie' ? 'movies' : 'shows') +
-                    '-like-' +
-                    slide.title.replace(/[^a-z0-9]+/gi, '-').toLowerCase()
+                @click="
+                  openArticle(
+                    (slide.type == 'movie' ? 'movies' : 'shows') +
+                      '-like-' +
+                      slide.title.replace(/[^a-z0-9]+/gi, '-').toLowerCase()
+                  )
                 "
               >
                 <div class="featured-slider-content">
@@ -86,13 +88,90 @@ export default {
   components: {
     ArticleCard
   },
+  metaInfo() {
+    return {
+      title: "Discover Movies & TV Shows",
+      meta: [
+        {
+          vmid: "description",
+          name: "description",
+          content:
+            "You have so many streaming subscriptions but still cannot decide what to watch? We are here to help you personalize all your streaming apps. Swipe your way through clutter."
+        },
+        {
+          "http-equiv": "Content-Type",
+          content: "text/html; charset=UTF-8"
+        },
+        {
+          vmid: "viewport",
+          name: "viewport",
+          content: "width=device-width, initial-scale=1"
+        },
+        {
+          vmid: "og:title",
+          property: "og:title",
+          content: "Discover Movies & TV Shows"
+        },
+        {
+          vmid: "og:description",
+          property: "og:description",
+          content:
+            "You have so many streaming subscriptions but still cannot decide what to watch? We are here to help you personalize all your streaming apps. Swipe your way through clutter."
+        },
+        {
+          vmid: "og:url",
+          property: "og:url",
+          content: this.store.blog_host + this.$route.path
+        },
+        {
+          vmid: "og:type",
+          property: "og:type",
+          content: "website"
+        },
+        {
+          vmid: "og:image",
+          property: "og:image",
+          content:
+            "https://flibo-images.s3-us-west-2.amazonaws.com/covers/login-cover.jpg"
+        },
+        {
+          vmid: "twitter:card",
+          name: "twitter:card",
+          content: "summary"
+        },
+        {
+          vmid: "twitter:title",
+          name: "twitter:title",
+          content: "Discover Movies & TV Shows"
+        },
+        {
+          vmid: "twitter:description",
+          name: "twitter:description",
+          content:
+            "You have so many streaming subscriptions but still cannot decide what to watch? We are here to help you personalize all your streaming apps. Swipe your way through clutter."
+        },
+        {
+          vmid: "twitter:url",
+          name: "twitter:url",
+          content: this.store.blog_host + this.$route.path
+        },
+        {
+          vmid: "twitter:image",
+          name: "twitter:image",
+          content:
+            "https://flibo-images.s3-us-west-2.amazonaws.com/covers/login-cover.jpg"
+        }
+      ]
+    };
+  },
   data: function() {
     return {
       country: null,
       featured: [],
       articles: [],
       min_popularity: null,
-      fetching: true
+      fetching: true,
+      store: this.$store.state
     };
   },
   created() {
@@ -156,6 +235,9 @@ export default {
             self.fetching = false;
           });
       }
+    },
+    openArticle(link) {
+      window.open(link, "_self");
     }
   }
 };
