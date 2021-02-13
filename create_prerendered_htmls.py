@@ -64,10 +64,13 @@ for content in df_main_contents.to_dict(orient='records'):
         page_html = page_html.replace('{content_type}', content_type)
         page_html = page_html.replace('{content_types}', f'{content_type}s'.title())
         page_html = page_html.replace('{page_slug}', content['url_title'])
-        page_html = page_html.replace(
-            '{page_artists}',
-            ('' if len(content['main_artists']) < 2 else ' and ').join([', '.join(content['main_artists'][0:-1]), content['main_artists'][-1]])
-        )
+        if len(content['main_artists']):
+            page_html = page_html.replace(
+                '{page_artists}',
+                ('' if len(content['main_artists']) < 2 else ' and ').join([', '.join(content['main_artists'][0:-1]), content['main_artists'][-1]])
+            )
+        else:
+            page_html = page_html.replace('{page_artists}', 'awesome filmmakers')
         page_html = page_html.replace('{page_cover}', content['cover'].replace('/w500/', '/w780/').replace('/original/', '/w780/'))
 
         similar_content_elements = []
