@@ -1,0 +1,30 @@
+sql:
+  host: '13.59.44.163'
+  port: 5432
+  db: 'flibo'
+  schema: 'app'
+  user: 'postgres'
+  password: 'ClickOpenYzal123'
+
+prerendered_htmls_directory: './prerendered_htmls/'
+build_hashes:
+  data_1: 'data-v-1e4a1070'
+  data_2: 'data-v-1d3f15ca'
+  js:
+    app: '3d87f01c'
+    home: '3a521c18'
+    article: '5e8f0c14'
+    article_on_demand: '6a63b715'
+    chunk_vendors: '3494349d'
+  css:
+    app: '37cc0440'
+    home: 'e9042837'
+    article: 'd2d63712'
+    article_on_demand: '3f09f3e1'
+    chunk_vendors: 'be8c8006'
+  img:
+    animal_reviews: [
+      '1.7b13194c', '2.5d88e578', '3.fb202925', '4.2a3a96f6', '5.633f07d9', '6.c5b50d27', '7.27b395a6'
+    ]
+    flibo_ad: 'a31dbb19'
+    swipe_screenshot: 'b3f859d7'
