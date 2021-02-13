@@ -39,7 +39,7 @@ df_contents_info['genres'] = df_contents_info['genres'].apply(lambda genres: [x.
 df_contents_info['main_artists'] = df_contents_info['main_artists'].apply(lambda artists: [x.replace("'", '') for x in eval(artists)] if artists else artists)
 
 print('Dropping duplicate slugs...')
-df_main_contents = df_contents_info.drop_duplicates('url_title').head(1000)
+df_main_contents = df_contents_info.drop_duplicates('url_title')
 
 print(f'Datframe size - {df_main_contents.shape[0]}')
 i = 0
