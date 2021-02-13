@@ -28,3 +28,8 @@ build_hashes:
     ]
     flibo_ad: 'a31dbb19'
     swipe_screenshot: 'b3f859d7'
+
+sitemaps:
+  directory: './sitemaps/'
+  url_limit: 25000
+  date: '2021-02-15'
