@@ -13,7 +13,7 @@
               <v-carousel-item
                 v-for="(slide, i) in featured"
                 :key="i"
-                :src="slide.image.replace('/w500/', '/w1280/')"
+                :src="slide.image.replace('/w500/', '/w780/')"
                 @click="
                   openArticle(
                     (slide.type == 'movie' ? 'movies' : 'shows') +
@@ -45,25 +45,25 @@
       <!-- == ARTICLES -->
       <v-row>
         <v-col>
-          <h1 style="font-size: 1.5rem;">Discover Movies &amp; TV Shows</h1>
+          <h1 style="font-size: 1.5rem">Discover Movies &amp; TV Shows</h1>
           <v-row>
             <v-col v-for="article in articles" :key="article.id">
               <ArticleCard
                 :title="article.title"
                 :description="
                   'Top ' +
-                    article.similar_content_count +
-                    ' awesome ' +
-                    (article.type == 'movie' ? 'movies' : 'shows') +
-                    ' like ' +
-                    article.title +
-                    ' that you will enjoy watching'
+                  article.similar_content_count +
+                  ' awesome ' +
+                  (article.type == 'movie' ? 'movies' : 'shows') +
+                  ' like ' +
+                  article.title +
+                  ' that you will enjoy watching'
                 "
                 :image="article.image"
                 :url="
                   (article.type == 'movie' ? 'movies' : 'shows') +
-                    '-like-' +
-                    article.title.replace(/[^a-z0-9]+/gi, '-').toLowerCase()
+                  '-like-' +
+                  article.title.replace(/[^a-z0-9]+/gi, '-').toLowerCase()
                 "
               />
             </v-col>
@@ -86,7 +86,7 @@ import axios from "axios";
 export default {
   name: "Home",
   components: {
-    ArticleCard
+    ArticleCard,
   },
   metaInfo() {
     return {
@@ -96,91 +96,91 @@ export default {
           vmid: "description",
           name: "description",
           content:
-            "You have so many streaming subscriptions but still cannot decide what to watch? We are here to help you personalize all your streaming apps. Swipe your way through clutter."
+            "You have so many streaming subscriptions but still cannot decide what to watch? We are here to help you personalize all your streaming apps. Swipe your way through clutter.",
         },
         {
           "http-equiv": "Content-Type",
-          content: "text/html; charset=UTF-8"
+          content: "text/html; charset=UTF-8",
         },
         {
           vmid: "viewport",
           name: "viewport",
-          content: "width=device-width, initial-scale=1"
+          content: "width=device-width, initial-scale=1",
         },
         {
           vmid: "og:title",
           property: "og:title",
-          content: "Discover Movies & TV Shows"
+          content: "Discover Movies & TV Shows",
         },
         {
           vmid: "og:description",
           property: "og:description",
           content:
-            "You have so many streaming subscriptions but still cannot decide what to watch? We are here to help you personalize all your streaming apps. Swipe your way through clutter."
+            "You have so many streaming subscriptions but still cannot decide what to watch? We are here to help you personalize all your streaming apps. Swipe your way through clutter.",
         },
         {
           vmid: "og:url",
           property: "og:url",
-          content: this.store.blog_host + this.$route.path
+          content: this.store.blog_host + this.$route.path,
         },
         {
           vmid: "og:type",
           property: "og:type",
-          content: "website"
+          content: "website",
         },
         {
           vmid: "og:image",
           property: "og:image",
           content:
-            "https://flibo-images.s3-us-west-2.amazonaws.com/covers/login-cover.jpg"
+            "https://flibo-images.s3-us-west-2.amazonaws.com/covers/login-cover.jpg",
         },
         {
           vmid: "twitter:card",
           name: "twitter:card",
-          content: "summary"
+          content: "summary",
         },
         {
           vmid: "twitter:title",
           name: "twitter:title",
-          content: "Discover Movies & TV Shows"
+          content: "Discover Movies & TV Shows",
         },
         {
           vmid: "twitter:description",
           name: "twitter:description",
           content:
-            "You have so many streaming subscriptions but still cannot decide what to watch? We are here to help you personalize all your streaming apps. Swipe your way through clutter."
+            "You have so many streaming subscriptions but still cannot decide what to watch? We are here to help you personalize all your streaming apps. Swipe your way through clutter.",
         },
         {
           vmid: "twitter:url",
           name: "twitter:url",
-          content: this.store.blog_host + this.$route.path
+          content: this.store.blog_host + this.$route.path,
         },
         {
           vmid: "twitter:image",
           name: "twitter:image",
           content:
-            "https://flibo-images.s3-us-west-2.amazonaws.com/covers/login-cover.jpg"
-        }
-      ]
+            "https://flibo-images.s3-us-west-2.amazonaws.com/covers/login-cover.jpg",
+        },
+      ],
     };
   },
-  data: function() {
+  data: function () {
     return {
       country: null,
       featured: [],
       articles: [],
       min_popularity: null,
       fetching: true,
-      store: this.$store.state
+      store: this.$store.state,
     };
   },
   created() {
     var self = this;
     axios
       .post(self.$store.state.api_host + "blogs_contents", {
-        popularity: null
+        popularity: null,
       })
-      .then(function(response) {
+      .then(function (response) {
         if (response.status == 200) {
           self.featured = response.data.blogs.slice(0, 3);
           self.articles = response.data.blogs.slice(3);
@@ -189,7 +189,7 @@ export default {
           document.dispatchEvent(new Event("x-app-rendered"));
         }
       })
-      .catch(function(error) {
+      .catch(function (error) {
         self.fetching = false;
       });
   },
@@ -222,24 +222,24 @@ export default {
         self.fetching = true;
         axios
           .post(self.$store.state.api_host + "blogs_contents", {
-            popularity: self.min_popularity
+            popularity: self.min_popularity,
           })
-          .then(function(response) {
+          .then(function (response) {
             if (response.status == 200) {
               self.articles.push(...response.data.blogs);
               self.min_popularity = response.data.min_popularity;
               self.fetching = false;
             }
           })
-          .catch(function(error) {
+          .catch(function (error) {
             self.fetching = false;
           });
       }
     },
     openArticle(link) {
       window.open(link, "_self");
-    }
-  }
+    },
+  },
 };
 </script>
 

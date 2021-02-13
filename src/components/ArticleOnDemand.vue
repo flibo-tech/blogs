@@ -6,7 +6,7 @@
           <v-breadcrumbs :items="navigation_links"></v-breadcrumbs>
           <v-img
             class="article-movie-poster"
-            :src="poster.replace('/w500/', '/w1280/')"
+            :src="poster.replace('/w500/', '/w780/')"
             alt=""
             aspect-ratio="2"
           ></v-img>
@@ -61,6 +61,31 @@
               </div>
             </ol>
 
+            <div class="row" style="justify-content: center">
+              <div class="col-md-12" style="text-align: center">
+                <img
+                  class="animal-review lazy"
+                  :data-src="
+                    require(`../assets/images/animal-review-${
+                      Math.floor(Math.random() * 7) + 1
+                    }.jpg`)
+                  "
+                  alt="animal-review"
+                />
+
+                <div align="center">
+                  <v-btn
+                    href="https://play.google.com/store/apps/details?id=com.pivot.flibo"
+                    target="_blank"
+                    class="f-primary download-btn"
+                    large
+                  >
+                    <span class="mr-2">Download App</span>
+                  </v-btn>
+                </div>
+              </div>
+            </div>
+
             <ol class="movie-list">
               <li v-for="(item, index) in similar_contents" :key="index">
                 <div class="row">
@@ -77,15 +102,15 @@
                     <div class="movie-content">
                       <h2>
                         <a
-                          style="color: #333;text-decoration: none;"
+                          style="color: #333; text-decoration: none"
                           :href="
                             store.app_host +
-                              'content/' +
-                              item.content_id +
-                              '/' +
-                              item.title
-                                .replace(/[^a-z0-9]+/gi, '-')
-                                .toLowerCase()
+                            'content/' +
+                            item.content_id +
+                            '/' +
+                            item.title
+                              .replace(/[^a-z0-9]+/gi, '-')
+                              .toLowerCase()
                           "
                           target="_blank"
                           >{{ item.title }}</a
@@ -107,22 +132,22 @@
                       <p
                         v-if="
                           Object.keys(where_to_watch).length &&
-                            where_to_watch[JSON.stringify(item.content_id)]
-                              .streaming_info
+                          where_to_watch[JSON.stringify(item.content_id)]
+                            .streaming_info
                         "
                       >
-                        <span style="white-space: pre-wrap;"
+                        <span style="white-space: pre-wrap"
                           >You can watch this on
                         </span>
                         <span
-                          v-for="(streaming_item,
-                          streaming_index) in where_to_watch[
-                            JSON.stringify(item.content_id)
-                          ].streaming_info"
+                          v-for="(
+                            streaming_item, streaming_index
+                          ) in where_to_watch[JSON.stringify(item.content_id)]
+                            .streaming_info"
                           :key="streaming_index"
                         >
                           <span
-                            style="white-space: pre-wrap;"
+                            style="white-space: pre-wrap"
                             v-if="
                               Object.keys(
                                 where_to_watch[JSON.stringify(item.content_id)]
@@ -134,11 +159,10 @@
                                   ].streaming_info
                                 ).length -
                                   1 &&
-                                Object.keys(
-                                  where_to_watch[
-                                    JSON.stringify(item.content_id)
-                                  ].streaming_info
-                                ).indexOf(streaming_index) != 0
+                              Object.keys(
+                                where_to_watch[JSON.stringify(item.content_id)]
+                                  .streaming_info
+                              ).indexOf(streaming_index) != 0
                             "
                           >
                             and
@@ -155,13 +179,17 @@
                           </span>
 
                           <a
-                            style="font-weight: bold;color: #333;text-decoration: none;"
+                            style="
+                              font-weight: bold;
+                              color: #333;
+                              text-decoration: none;
+                            "
                             :href="streaming_item"
                             target="_blank"
                             >{{
                               streaming_index
                                 .replace(/[_]+/gi, " ")
-                                .replace(/(^|\s)\S/g, function(t) {
+                                .replace(/(^|\s)\S/g, function (t) {
                                   return t.toUpperCase();
                                 })
                             }}</a
@@ -171,10 +199,10 @@
                       <!-- TRAILER -->
                       <v-btn
                         v-if="item.youtube_trailer_id"
-                        style="text-decoration: none;"
+                        style="text-decoration: none"
                         :href="
                           'https://www.youtube.com/watch?v=' +
-                            item.youtube_trailer_id
+                          item.youtube_trailer_id
                         "
                         target="_blank"
                       >
@@ -184,6 +212,33 @@
                     </div>
                   </div>
                   <!--  -->
+                </div>
+
+                <div
+                  v-if="index == 2"
+                  class="row"
+                  style="justify-content: center"
+                >
+                  <div class="col-md-12" style="text-align: center">
+                    <img
+                      class="animal-review lazy"
+                      :data-src="
+                        require(`../assets/images/swipe-screenshot.webp`)
+                      "
+                      alt="swipe-card"
+                    />
+
+                    <div align="center">
+                      <v-btn
+                        href="https://play.google.com/store/apps/details?id=com.pivot.flibo"
+                        target="_blank"
+                        class="f-primary download-btn"
+                        large
+                      >
+                        <span class="mr-2">Download App</span>
+                      </v-btn>
+                    </div>
+                  </div>
                 </div>
               </li>
             </ol>
@@ -224,43 +279,43 @@ export default {
           {
             vmid: "description",
             name: "description",
-            content: this.meta_description
+            content: this.meta_description,
           },
           {
             vmid: "og:title",
             property: "og:title",
-            content: this.meta_title
+            content: this.meta_title,
           },
           {
             vmid: "og:description",
             property: "og:description",
-            content: this.meta_description
+            content: this.meta_description,
           },
           {
             vmid: "og:image",
             property: "og:image",
-            content: this.poster.replace("/w500/", "/w1280/")
+            content: this.poster.replace("/w500/", "/w780/"),
           },
           {
             vmid: "twitter:title",
             name: "twitter:title",
-            content: this.meta_title
+            content: this.meta_title,
           },
           {
             vmid: "twitter:description",
             name: "twitter:description",
-            content: this.meta_description
+            content: this.meta_description,
           },
           {
             vmid: "twitter:image",
             name: "twitter:image",
-            content: this.poster.replace("/w500/", "/w1280/")
-          }
-        ]
+            content: this.poster.replace("/w500/", "/w780/"),
+          },
+        ],
       };
     }
   },
-  data: function() {
+  data: function () {
     return {
       dialog: false, // for popup
       fliboAd: "flibo-ad.png", // FLIBO AD image
@@ -279,7 +334,7 @@ export default {
       play_trailer_index: null,
       play_trailer: false,
       lazyloadImages: [],
-      lazyloadThrottleTimeout: null
+      lazyloadThrottleTimeout: null,
     };
   },
   created() {
@@ -297,9 +352,9 @@ export default {
       .post(self.$store.state.api_host + "similar_contents_for_blog", {
         content_name: self.content_name,
         content_type: self.is_movie ? "movie" : "tv",
-        guest_id: self.$store.state.guest_id
+        guest_id: self.$store.state.guest_id,
       })
-      .then(function(response) {
+      .then(function (response) {
         if (response.status == 200) {
           self.content_id = response.data.content_id;
           self.title = response.data.title;
@@ -319,10 +374,10 @@ export default {
                 self.$store.state.api_host + "where_to_watch_similar_content",
                 {
                   content_ids: content_ids,
-                  country: self.$store.state.guest_country
+                  country: self.$store.state.guest_country,
                 }
               )
-              .then(function(response) {
+              .then(function (response) {
                 if (response.status == 200) {
                   self.where_to_watch = response.data;
                   document.dispatchEvent(new Event("x-app-rendered"));
@@ -337,10 +392,10 @@ export default {
                   self.$store.state.api_host + "where_to_watch_similar_content",
                   {
                     content_ids: content_ids,
-                    country: self.$store.state.guest_country || "United States"
+                    country: self.$store.state.guest_country || "United States",
                   }
                 )
-                .then(function(response) {
+                .then(function (response) {
                   if (response.status == 200) {
                     self.where_to_watch = response.data;
                     document.dispatchEvent(new Event("x-app-rendered"));
@@ -353,27 +408,27 @@ export default {
           }
         }
       })
-      .catch(function(error) {
+      .catch(function (error) {
         // console.log(error);
       });
   },
   computed: {
-    navigation_links: function() {
+    navigation_links: function () {
       var crumbs = [
         {
           text: "Home",
           disabled: false,
-          href: "/"
+          href: "/",
         },
         {
           text: (this.is_movie ? "Movies" : "Shows") + " like " + this.title,
           disabled: true,
-          href: this.$route.path
-        }
+          href: this.$route.path,
+        },
       ];
       return crumbs;
     },
-    meta_title: function() {
+    meta_title: function () {
       return (
         "Top " +
         this.similar_contents.length +
@@ -384,7 +439,7 @@ export default {
         " that you will enjoy watching"
       );
     },
-    meta_description: function() {
+    meta_description: function () {
       return (
         "Are you looking for " +
         (this.is_movie ? "movies" : "shows") +
@@ -395,11 +450,11 @@ export default {
         " by the likes of " +
         [
           this.main_artists.slice(0, -1).join(", "),
-          this.main_artists.slice(-1)[0]
+          this.main_artists.slice(-1)[0],
         ].join(this.main_artists.length < 2 ? "" : " and ") +
         "."
       );
-    }
+    },
   },
   methods: {
     artistConcat(artists) {
@@ -416,9 +471,9 @@ export default {
         clearTimeout(self.lazyloadThrottleTimeout);
       }
 
-      self.lazyloadThrottleTimeout = setTimeout(function() {
+      self.lazyloadThrottleTimeout = setTimeout(function () {
         var scrollTop = window.pageYOffset;
-        self.lazyloadImages.forEach(function(img) {
+        self.lazyloadImages.forEach(function (img) {
           if (img.y - 200 < window.innerHeight) {
             img.src = img.dataset.src;
             img.classList.remove("lazy");
@@ -429,14 +484,14 @@ export default {
           document.removeEventListener("scroll", self.lazyload);
         }
       }, 20);
-    }
+    },
   },
   mounted() {
     document.addEventListener("scroll", this.lazyload);
   },
   beforeDestroy() {
     document.removeEventListener("scroll", this.lazyload);
-  }
+  },
 };
 </script>
 
@@ -613,6 +668,10 @@ ol.movie-list li::before {
   display: none;
 }
 .article-poster {
+  width: 100%;
+  max-width: 500px;
+}
+.animal-review {
   width: 100%;
   max-width: 500px;
 }
