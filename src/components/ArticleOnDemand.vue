@@ -75,7 +75,7 @@
 
                 <div align="center">
                   <v-btn
-                    href="https://play.google.com/store/apps/details?id=com.pivot.flibo"
+                    href="https://play.google.com/store/apps/details?id=com.pivot.flibo&referrer=utm_source%3Dflibo-blogs"
                     target="_blank"
                     class="f-primary download-btn"
                     large
@@ -230,7 +230,7 @@
 
                     <div align="center">
                       <v-btn
-                        href="https://play.google.com/store/apps/details?id=com.pivot.flibo"
+                        href="https://play.google.com/store/apps/details?id=com.pivot.flibo&referrer=utm_source%3Dflibo-blogs"
                         target="_blank"
                         class="f-primary download-btn"
                         large
@@ -248,7 +248,7 @@
           <div class="row">
             <div class="col-md-12 flibo-ad">
               <a
-                href="https://play.google.com/store/apps/details?id=com.pivot.flibo"
+                href="https://play.google.com/store/apps/details?id=com.pivot.flibo&referrer=utm_source%3Dflibo-blogs"
                 target="_blank"
                 ><img
                   :data-src="require(`../assets/images/${fliboAd}`)"

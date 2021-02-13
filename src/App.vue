@@ -17,7 +17,7 @@
           </div>
           <div class="col-6" align="right">
             <v-btn
-              href="https://play.google.com/store/apps/details?id=com.pivot.flibo"
+              href="https://play.google.com/store/apps/details?id=com.pivot.flibo&referrer=utm_source%3Dflibo-blogs"
               target="_blank"
               class="f-primary download-btn"
               large
@@ -42,7 +42,7 @@
       <v-spacer></v-spacer>
 
       <v-btn
-        href="https://play.google.com/store/apps/details?id=com.pivot.flibo"
+        href="https://play.google.com/store/apps/details?id=com.pivot.flibo&referrer=utm_source%3Dflibo-blogs"
         target="_blank"
       >
         <span class="mr-2">Download App</span>
@@ -76,72 +76,72 @@ export default {
             vmid: "description",
             name: "description",
             content:
-              "You have so many streaming subscriptions but still cannot decide what to watch? We are here to help you personalize all your streaming apps. Swipe your way through clutter."
+              "You have so many streaming subscriptions but still cannot decide what to watch? We are here to help you personalize all your streaming apps. Swipe your way through clutter.",
           },
           {
             "http-equiv": "Content-Type",
-            content: "text/html; charset=UTF-8"
+            content: "text/html; charset=UTF-8",
           },
           {
             vmid: "viewport",
             name: "viewport",
-            content: "width=device-width, initial-scale=1"
+            content: "width=device-width, initial-scale=1",
           },
           {
             vmid: "og:title",
             property: "og:title",
-            content: "Discover Movies & TV Shows"
+            content: "Discover Movies & TV Shows",
           },
           {
             vmid: "og:description",
             property: "og:description",
             content:
-              "You have so many streaming subscriptions but still cannot decide what to watch? We are here to help you personalize all your streaming apps. Swipe your way through clutter."
+              "You have so many streaming subscriptions but still cannot decide what to watch? We are here to help you personalize all your streaming apps. Swipe your way through clutter.",
           },
           {
             vmid: "og:url",
             property: "og:url",
-            content: this.store.blog_host + this.$route.path
+            content: this.store.blog_host + this.$route.path,
           },
           {
             vmid: "og:type",
             property: "og:type",
-            content: "website"
+            content: "website",
           },
           {
             vmid: "og:image",
             property: "og:image",
             content:
-              "https://flibo-images.s3-us-west-2.amazonaws.com/covers/login-cover.jpg"
+              "https://flibo-images.s3-us-west-2.amazonaws.com/covers/login-cover.jpg",
           },
           {
             vmid: "twitter:card",
             name: "twitter:card",
-            content: "summary"
+            content: "summary",
           },
           {
             vmid: "twitter:title",
             name: "twitter:title",
-            content: "Discover Movies & TV Shows"
+            content: "Discover Movies & TV Shows",
           },
           {
             vmid: "twitter:description",
             name: "twitter:description",
             content:
-              "You have so many streaming subscriptions but still cannot decide what to watch? We are here to help you personalize all your streaming apps. Swipe your way through clutter."
+              "You have so many streaming subscriptions but still cannot decide what to watch? We are here to help you personalize all your streaming apps. Swipe your way through clutter.",
           },
           {
             vmid: "twitter:url",
             name: "twitter:url",
-            content: this.store.blog_host + this.$route.path
+            content: this.store.blog_host + this.$route.path,
           },
           {
             vmid: "twitter:image",
             name: "twitter:image",
             content:
-              "https://flibo-images.s3-us-west-2.amazonaws.com/covers/login-cover.jpg"
-          }
-        ]
+              "https://flibo-images.s3-us-west-2.amazonaws.com/covers/login-cover.jpg",
+          },
+        ],
       };
     }
   },
@@ -153,7 +153,7 @@ export default {
       article_container: null,
       article_description: null,
       article_title: null,
-      article_image: null
+      article_image: null,
     };
   },
   created() {
@@ -186,18 +186,18 @@ export default {
     }
   },
   computed: {
-    my_store: function() {
+    my_store: function () {
       return this.$store.state;
-    }
+    },
   },
   watch: {
     my_store: {
       handler(val) {
         localStorage.setItem("my_store", JSON.stringify(this.my_store));
       },
-      deep: true
-    }
-  }
+      deep: true,
+    },
+  },
 };
 </script>
 
