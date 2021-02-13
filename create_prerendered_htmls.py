@@ -87,12 +87,15 @@ for content in df_main_contents.to_dict(orient='records'):
                 similar_content['summary_text'] if similar_content['summary_text'] else ''
             )
             current_similar_content_html = current_similar_content_html.replace('{similar_content_type}', similar_content_type)
-            current_similar_content_html = current_similar_content_html.replace(
-                '{similar_content_artists}',
-                ('' if len(similar_content['main_artists']) < 2 else ' and ').join(
-                    [', '.join(similar_content['main_artists'][0:-1]), similar_content['main_artists'][-1]]
+            if len(similar_content['main_artists']):
+                current_similar_content_html = current_similar_content_html.replace(
+                    '{similar_content_artists}',
+                    ('' if len(similar_content['main_artists']) < 2 else ' and ').join(
+                        [', '.join(similar_content['main_artists'][0:-1]), similar_content['main_artists'][-1]]
+                    )
                 )
-            )
+            else:
+                current_similar_content_html = current_similar_content_html.replace('{similar_content_artists}', 'awesome filmmakers')
             current_similar_content_html = current_similar_content_html.replace('{similar_content_imdb_score}', str(similar_content['imdb_score']))
             current_similar_content_html = current_similar_content_html.replace('{similar_content_genres}', ' | '.join(similar_content['genres']))
             current_similar_content_html = current_similar_content_html.replace('{similar_content_poster}', similar_content['poster'])
