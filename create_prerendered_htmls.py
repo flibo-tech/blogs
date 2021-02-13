@@ -36,7 +36,7 @@ df_contents_info['similar_content'] = df_contents_info['similar_content'].apply(
 df_contents_info['where_to_watch'] = df_contents_info['where_to_watch'].apply(lambda x: eval(x) if x else None)
 df_contents_info['where_to_watch'] = df_contents_info['where_to_watch'].apply(lambda x: x.get('stream', x.get('rent', x.get('buy'))) if x else None)
 df_contents_info['genres'] = df_contents_info['genres'].apply(lambda genres: [x.replace("'", '') for x in eval(genres)] if genres else genres)
-df_contents_info['main_artists'] = df_contents_info['main_artists'].apply(lambda artists: [x.replace("'", '') for x in eval(artists)] if artists else artists)
+df_contents_info['main_artists'] = df_contents_info['main_artists'].apply(lambda artists: [x.replace("'", '') for x in eval(artists)] if artists else [])
 
 print('Dropping duplicate slugs...')
 df_main_contents = df_contents_info.drop_duplicates('url_title')
