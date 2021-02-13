@@ -219,7 +219,10 @@
                   class="row"
                   style="justify-content: center"
                 >
-                  <div class="col-md-12" style="text-align: center">
+                  <div
+                    class="col-md-12"
+                    style="text-align: center; margin-top: 16px"
+                  >
                     <img
                       class="animal-review lazy"
                       :data-src="
