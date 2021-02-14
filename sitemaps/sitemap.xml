@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+  <sitemapindex xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+    <sitemap>
+      <loc>https://blog.flibo.ai/sitemap1.xml</loc>
+    </sitemap>
+    <sitemap>
+      <loc>https://blog.flibo.ai/sitemap2.xml</loc>
+    </sitemap>
+    <sitemap>
+      <loc>https://blog.flibo.ai/sitemap3.xml</loc>
+    </sitemap>
+    <sitemap>
+      <loc>https://blog.flibo.ai/sitemap4.xml</loc>
+    </sitemap>
+    <sitemap>
+      <loc>https://blog.flibo.ai/sitemap5.xml</loc>
+    </sitemap>
+    <sitemap>
+      <loc>https://blog.flibo.ai/sitemap6.xml</loc>
+    </sitemap>
+    <sitemap>
+      <loc>https://blog.flibo.ai/sitemap7.xml</loc>
+    </sitemap>
+    <sitemap>
+      <loc>https://blog.flibo.ai/sitemap8.xml</loc>
+    </sitemap>
+  </sitemapindex>
