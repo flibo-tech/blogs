@@ -78,9 +78,12 @@
                     href="https://play.google.com/store/apps/details?id=com.pivot.flibo&referrer=utm_source%3Dflibo-blogs"
                     target="_blank"
                     class="f-primary download-btn"
+                    id="app-download-animal-review"
                     large
                   >
-                    <span class="mr-2">Download App</span>
+                    <span class="mr-2" id="app-download-animal-review"
+                      >Download App</span
+                    >
                   </v-btn>
                 </div>
               </div>
@@ -236,9 +239,12 @@
                         href="https://play.google.com/store/apps/details?id=com.pivot.flibo&referrer=utm_source%3Dflibo-blogs"
                         target="_blank"
                         class="f-primary download-btn"
+                        id="app-download-swipe"
                         large
                       >
-                        <span class="mr-2">Download App</span>
+                        <span class="mr-2" id="app-download-swipe"
+                          >Download App</span
+                        >
                       </v-btn>
                     </div>
                   </div>
@@ -253,10 +259,12 @@
               <a
                 href="https://play.google.com/store/apps/details?id=com.pivot.flibo&referrer=utm_source%3Dflibo-blogs"
                 target="_blank"
+                id="app-download-footer"
                 ><img
                   :data-src="require(`../assets/images/${fliboAd}`)"
                   alt="Download Flibo app"
                   class="lazy"
+                  id="app-download-footer"
               /></a>
             </div>
           </div>

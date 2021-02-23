@@ -20,9 +20,10 @@
               href="https://play.google.com/store/apps/details?id=com.pivot.flibo&referrer=utm_source%3Dflibo-blogs"
               target="_blank"
               class="f-primary download-btn"
+              id="app-download-header"
               large
             >
-              <span class="mr-2">Download App</span>
+              <span class="mr-2" id="app-download-header">Download App</span>
             </v-btn>
           </div>
         </div>
