@@ -8,19 +8,19 @@ sql:
 
 prerendered_htmls_directory: './prerendered_htmls/'
 build_hashes:
-  data_1: 'data-v-1e4a1070'
+  data_1: 'data-v-40b31908'
   data_2: 'data-v-1d3f15ca'
   js:
-    app: '3d87f01c'
+    app: 'c0fec002'
     home: '3a521c18'
     article: '5e8f0c14'
-    article_on_demand: '6a63b715'
+    article_on_demand: 'c095e0bc'
     chunk_vendors: '3494349d'
   css:
     app: '37cc0440'
     home: 'e9042837'
     article: 'd2d63712'
-    article_on_demand: '3f09f3e1'
+    article_on_demand: '5f7e22a5'
     chunk_vendors: 'be8c8006'
   img:
     animal_reviews: [
