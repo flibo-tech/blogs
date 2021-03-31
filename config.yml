@@ -1,35 +1,31 @@
 sql:
-  host: '13.59.44.163'
+  host: "13.59.44.163"
   port: 5432
-  db: 'flibo'
-  schema: 'app'
-  user: 'postgres'
-  password: 'ClickOpenYzal123'
+  db: "flibo"
+  schema: "app"
+  user: "postgres"
+  password: "ClickOpenYzal123"
 
-prerendered_htmls_directory: './prerendered_htmls/'
+prerendered_htmls_directory: "./prerendered_htmls/"
 build_hashes:
-  data_1: 'data-v-40b31908'
-  data_2: 'data-v-1d3f15ca'
+  data_1: "data-v-742ff8a2"
+  data_2: "data-v-a3bb3e6a"
   js:
-    app: 'c0fec002'
-    home: '3a521c18'
-    article: '5e8f0c14'
-    article_on_demand: 'c095e0bc'
-    chunk_vendors: '3494349d'
+    app: "8cd36b78"
+    home: "819050fd"
+    article: "f83958da"
+    article_on_demand: "6e852eeb"
+    chunk_vendors: "757b39db"
   css:
-    app: '37cc0440'
-    home: 'e9042837'
-    article: 'd2d63712'
-    article_on_demand: '5f7e22a5'
-    chunk_vendors: 'be8c8006'
+    app: "37cc0440"
+    home: "9b330532"
+    article: "937078cc"
+    article_on_demand: "0f8f0545"
+    chunk_vendors: "f5c5c5f0"
   img:
-    animal_reviews: [
-      '1.7b13194c', '2.5d88e578', '3.fb202925', '4.2a3a96f6', '5.633f07d9', '6.c5b50d27', '7.27b395a6'
-    ]
-    flibo_ad: 'a31dbb19'
-    swipe_screenshot: 'b3f859d7'
+    flibo_ad: "a31dbb19"
 
 sitemaps:
-  directory: './sitemaps/'
+  directory: "./sitemaps/"
   url_limit: 25000
-  date: '2021-02-14'
+  date: "2021-02-14"
