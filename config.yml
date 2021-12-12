@@ -28,4 +28,4 @@ build_hashes:
 sitemaps:
   directory: "./sitemaps/"
   url_limit: 25000
-  date: "2021-02-14"
+  date: "2021-12-12"
